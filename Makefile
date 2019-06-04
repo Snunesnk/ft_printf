@@ -6,14 +6,15 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/04 02:30:09 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/04 07:14:58 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 NAME = a.out
 SRC_PATH = .
-SRC_NAME = main.c ft_printf.c print_arg.c diouxX_conv.c hhlL_flags.c
+SRC_NAME = main.c ft_printf.c print_arg.c diouxX_conv.c hhlL_flags.c \
+		   print_spaces.c
 OBJ_PATH = obj
 I_PATH = include
 HEADER_NAME = printf.h

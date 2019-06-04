@@ -6,13 +6,13 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 15:23:05 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/04 06:08:30 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/04 07:10:37 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int print_nbr(int flags[7][1], long long int nbr)
+void	print_nbr(int flags[7][1], long long int nbr)
 {
 	int len;
 
@@ -26,10 +26,9 @@ int print_nbr(int flags[7][1], long long int nbr)
 	print_frontnb(flags, nbr);
 	ft_putnbr(nbr);
 	print_endspaces(flags, len);
-	return (nbr);
 }
 
-int	print_octal(int flags[7][1], long long int nbr)
+void	print_octal(int flags[7][1], long long int nbr)
 {
 	unsigned int	len;
 	long long int	conv;
@@ -40,33 +39,21 @@ int	print_octal(int flags[7][1], long long int nbr)
 		conv = conv * 10 + nbr % 8;
 		nbr = nbr / 8;
 	}
-	len = ft_nbrlen(conv);
+	len = (flags[0][0] == 1) ? ft_nbrlen(conv) : ft_nbrlen(conv) + 1;
 	print_frontspaces(flags, len);
-	while ( >= 0 && len < (unsigned int)precision)
+	print_frontnb(flags, -1, 'c');
+	while ( flags[6][0]> 0 && len < (unsigned int)flags[])
 	{
 		write(1, "0", 1);
 		len++;
 	}
 	nbr = ft_nbrrev((int)(conv));
 	ft_putnbr(nbr);
-	return (nbr);
-}
-
-int	print_unsigned_nbr(int precision, long long int nbr)
-{
-	unsigned int len;
-
 	len = ft_nbrlen(nbr);
-	while (precision >= 0 && len < (unsigned int)precision)
-	{
-		write(1, "0", 1);
-		len++;
-	}
-	ft_putnbr(nbr);
-	return (nbr);
+	print_endspaces(flags, len);
 }
 
-int	print_hexa(int precision, char letter, long long int nbr)
+void	print_hexa(int flags[7][1], char letter, long long int nbr)
 {
 	char			*conv;
 	unsigned int	len;
@@ -85,30 +72,38 @@ int	print_hexa(int precision, char letter, long long int nbr)
 		nbr /= 16;
 	}
 	ft_strrev(conv);
-	while (precision != -1 && ft_strlen(conv) < (size_t)precision--)
+	len = (flag[0][0] == 1) ? ft_strlen(conv) + 2 : ft_strlen(conv);
+	print_frontspaces(flags, len);
+	print_frontnbr(flags, -1, letter)
+	while (flags[6][0] != -1 && len < (size_t)flags[6][0]--)
 		write(1, "0", 1);
 	ft_putstr(conv);
+	print_endspaces(flags, len);
 	free(conv);
-	return (1);
 }
 
-int	print_double(va_list ap, int precision)
+void	print_double(va_list ap, int flags[7][1])
 {
+	int		len;
 	int		ret;
 	double	nb;
 
-	precision = (precision == -1) ? 6 : precision;
+	flags[6][0] = (flags[6][0] == -1) ? 6 : flags[6][0];
 	nb = va_arg(ap, double);
+	print_frontspaces(flags, len);
 	ft_putnbr(nb);
-	if (precision)
-	{
+	print_frontnb(flags, nb, 'f');
+	len = ft_nbrlen(nb);
+	if (flags[6][0] == 1 || flags[0][0] == 1)
 		ft_putchar('.');
+	if (flags[6][0])
+	{
 		ret = nb;
 		nb = nb - ret;
-		while (precision--)
+		while (flags[6][0] && len++)
 			nb = nb * 10; 
 		if (nb)
 			ft_putnbr(nb);
 	}
-	return (1);
+	print_endspaces(flags, ft_nbrle)
 }

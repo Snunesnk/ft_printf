@@ -6,13 +6,13 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/04 05:42:45 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/04 07:14:27 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int	print_char(va_list ap, int flags)
+void	print_char(va_list ap, int flags[7][1])
 {
 	unsigned char c;
 
@@ -31,18 +31,17 @@ int	print_char(va_list ap, int flags)
 		write(1, " ", 1);
 		flags[5][0] -= 1;
 	}
-	return (1);
 }
 
-int	print_str(va_list ap, int precision)
+void	print_str(va_list ap, int flags[7][1])
 {
 	int i;
 	char *str;
 
 	i = 0;
 	str = va_arg(ap, char *);
-	precision = (precision < 0) ? ft_strlen(str) : precision;
-	while (str[i] && i < precision)
+	flags[6][0] = (flags[6][0] < 0) ? ft_strlen(str) : flags[6][0];
+	while (str[i] && i < flags[6][0])
 		++i;
 	str[i] = '\0';
 	while (!flags[3][0] && flags[5][0] && (flags[5][0]--) - ft_strlen(str))
@@ -50,10 +49,9 @@ int	print_str(va_list ap, int precision)
 	ft_putstr(str);
 	while (flags[3][0] && flags[5][0] && (flags[5][0]--) - ft_strlen(str))
 		write(1, " ", 1);
-	return (1);
 }
 
-int print_ptr(va_list ap, int flags[7][1])
+void	print_ptr(va_list ap, int flags[7][1])
 {
 	char tab[15];
 	void *ptr;
@@ -78,7 +76,6 @@ int print_ptr(va_list ap, int flags[7][1])
 	ft_putstr(tab);
 	while (flags[3][0] && flags[5][0] && (flags[5][0]--) - 14)
 		write(1, " ", 1);
-	return (1);
 }
 
 int	get_next_percent(const char *str, int pos)
@@ -106,7 +103,7 @@ int	ft_printf(const char *format, ...)
 	while ((pos = get_next_percent(format, pos)) != 0)
 	{
 		pos++;
-		if((find_first_flag(format, &pos, ap) == -1))
+		if((find_first_flags(format, &pos, ap) == -1))
 			return (-1);
 	}
 	va_end(ap);
