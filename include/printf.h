@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:47:14 by snunes            #+#    #+#             */
-/*   Updated: 2019/05/30 13:31:39 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/04 05:18:32 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 
+int	find_first_flags(const char *str, int *pos, va_list ap);
 int print_Ldouble(va_list ap, char c, int precision);
 int print_lint(va_list ap, char c, int precision);
 int print_llint(va_list ap, char c, int precision);

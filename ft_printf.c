@@ -5,84 +5,87 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/28 18:35:49 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/02 17:01:53 by snunes           ###   ########.fr       */
+/*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
+/*   Updated: 2019/06/04 05:42:45 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int	preci(const char *str, int *pos)
+int	print_char(va_list ap, int flags)
+{
+	unsigned char c;
+
+	c = (unsigned char)va_arg(ap, int);
+	while (!flags[3][0] && flags[5][0] && flags[5][0] - 1)
+	{
+		if (flags[4][0] == 1)
+			write(1, "0", 1);
+		else
+			write(1, " ", 1);
+		flags[5][0] -= 1;
+	}
+	write(1, &c, 1);
+	while (flags[3][0] && flags[5][0] && flags[5][0] - 1)
+	{
+		write(1, " ", 1);
+		flags[5][0] -= 1;
+	}
+	return (1);
+}
+
+int	print_str(va_list ap, int precision)
 {
 	int i;
-	char ret[10];
-	int result;
+	char *str;
 
 	i = 0;
-	result = 0;
-	while (ft_isdigit(str[*pos]))
+	str = va_arg(ap, char *);
+	precision = (precision < 0) ? ft_strlen(str) : precision;
+	while (str[i] && i < precision)
+		++i;
+	str[i] = '\0';
+	while (!flags[3][0] && flags[5][0] && (flags[5][0]--) - ft_strlen(str))
+		write(1, " ", 1);
+	ft_putstr(str);
+	while (flags[3][0] && flags[5][0] && (flags[5][0]--) - ft_strlen(str))
+		write(1, " ", 1);
+	return (1);
+}
+
+int print_ptr(va_list ap, int flags[7][1])
+{
+	char tab[15];
+	void *ptr;
+	int i;
+	long int res;
+
+	i = 0;
+	ptr = va_arg(ap, void*);
+	tab[14] = 0;
+	tab[13] = '0';
+	tab[12] = 'x';
+	res = (long int)ptr;
+	while (res > 0)
 	{
-		ret[i++] = str[*pos];
-		++(*pos);
+		tab[i] = (res % 16 < 10) ? (res % 16) + '0' : (res % 16) - 10 + 'a';
+		res /= 16;
+		i++;
 	}
-	result = ft_atoi(ret);
-	return (result);
-}
-
-int	find_douixXf(const char *str, int *pos, va_list ap, int precision)
-{
-	if ((str[*pos] == 'd' || str[*pos] == 'i') && ++(*pos))
-		return (print_nbr(precision, va_arg(ap, int)));
-	if (str[*pos] == 'o' && ++(*pos))
-		return (print_octal(precision, va_arg(ap, unsigned int)));
-	if (str[*pos] == 'u' && ++(*pos))
-		return (print_unsigned_nbr(precision, va_arg(ap, unsigned int)));
-	if ((str[*pos] == 'x' || str[*pos] == 'X') && ++(*pos))
-		return (print_hexa(precision, str[*pos - 1], va_arg(ap, unsigned int)));
-	if (str[*pos] == 'f' && ++(*pos))
-		return (print_double(ap, precision));
-	return (-1);
-}
-
-int	find_hhllL(const char *str, int *pos, va_list ap, int precision)
-{
-	if (str[*pos] == 'h' && str[*pos + 1] == 'h' && (*pos += 3))
-		return (print_sint(ap, str[*pos - 1], precision));
-	if (str[*pos] == 'h' && (*pos += 2))
-		return (print_sint(ap, str[*pos - 1], precision));
-	if (str[*pos] == 'l' && str[*pos + 1] == 'l' && (*pos += 3))
-		return (print_llint(ap, str[*pos - 1], precision));
-	if (str[*pos] == 'l' && (*pos += 2))
-		return (print_lint(ap, str[*pos - 1], precision));
-	if (str[*pos] == 'L' && (*pos += 2))
-		return (print_Ldouble(ap, str[*pos - 1], precision));
-	return (find_douixXf(str, pos, ap, precision));
-}
-
-int	find_csp(const char *str, int *pos, va_list ap)
-{
-	int precision;
-
-	precision = -1;
-	++(*pos);
-	if (str[*pos] == '%' && ++(*pos))
-		return (1);
-	if (str[*pos] == '.' && ++(*pos))
-		precision = preci(str, pos);
-	if (str[*pos] == 'c' && ++(*pos))
-		return (print_char(ap));
-	if (str[*pos] == 's' && ++(*pos))
-		return (print_str(ap, precision));
-	if (str[*pos] == 'p' && ++(*pos))
-		return (print_ptr(ap));
-	return (find_hhllL(str, pos, ap, precision));
+	while (!flags[3][0] && flags[5][0] && (flags[5][0]--) - 14)
+		write(1, " ", 1);
+	ft_strrev(tab);
+	ft_putstr(tab);
+	while (flags[3][0] && flags[5][0] && (flags[5][0]--) - 14)
+		write(1, " ", 1);
+	return (1);
 }
 
 int	get_next_percent(const char *str, int pos)
 {
 	while (str[pos])
 	{
-		if ((pos > 0 && str[pos - 1] != '%' && str[pos] == '%') 
+		if ((pos > 0 && str[pos - 1] != '%' && str[pos] == '%')
 				|| (pos == 0 && str[pos] == '%'))
 		{
 			return (pos);
@@ -97,12 +100,14 @@ int	ft_printf(const char *format, ...)
 {
 	int		pos;
 	va_list	ap;
-	
+
 	pos = 0;
 	va_start(ap, format);
 	while ((pos = get_next_percent(format, pos)) != 0)
 	{
-		find_csp(format, &pos, ap);
+		pos++;
+		if((find_first_flag(format, &pos, ap) == -1))
+			return (-1);
 	}
 	va_end(ap);
 	return (0);
