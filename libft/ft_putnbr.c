@@ -6,21 +6,21 @@
 /*   By: snunes <snunes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 13:54:25 by snunes            #+#    #+#             */
-/*   Updated: 2019/05/30 14:27:23 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 05:13:01 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(long long int n)
+void	ft_putnbr(int n)
 {
 	if (n < 0)
 	{
 		ft_putchar('-');
-		if (n == -9223372036854775807)
+		if (n == -2147483648)
 		{
-			ft_putchar('9');
-			ft_putnbr(223372036854775807);
+			ft_putchar('2');
+			ft_putnbr(147483648);
 		}
 		else
 			ft_putnbr(-n);

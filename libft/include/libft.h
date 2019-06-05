@@ -6,7 +6,7 @@
 /*   By: snunes <snunes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 19:07:48 by snunes            #+#    #+#             */
-/*   Updated: 2019/05/30 12:13:04 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 05:18:58 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef	struct	s_list
 	struct s_list	*next;
 }				t_list;
 
+void			ft_putlongnbr(long long int nbr);
 int				ft_nbrrev(int nbr);
 int				ft_nbrlen(int nbr);
 void			ft_strrev(char *to_reverse);
@@ -69,7 +70,7 @@ void			*ft_memcpy(void *dst, const void *src, size_t n);
 void			ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void			ft_lstadd(t_list **alst, t_list *new);
 struct s_list	*ft_lstnew(void const *content, size_t content_size);
-void			ft_putnbr(long long int n);
+void			ft_putnbr(int n);
 void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 void			ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 int				ft_isalnum(int c);

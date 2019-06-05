@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:35:49 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/05 02:10:10 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 05:59:10 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	find_first_flags(const char *str, int *pos, va_list ap)
 		return ((void)i);
 	while (i < 7)
 		flags[i++][0] = 0;
-	while (str[*pos] != '.' && (!ft_isalnum(str[*pos]) && str[*pos] != 0))
+	while ((!ft_isalnum(str[*pos]) || str[*pos] == '0') && str[*pos] != '.')
 	{
 		if (str[*pos] == '#' && ++(*pos))
 			flags[0][0] = 1;

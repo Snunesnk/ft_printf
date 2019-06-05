@@ -6,13 +6,13 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 15:23:05 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/05 03:54:24 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 05:55:13 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-void	print_nbr(int flags[7][1], long long int nbr)
+void			print_nbr(int flags[7][1], long long int nbr)
 {
 	int len;
 
@@ -23,12 +23,11 @@ void	print_nbr(int flags[7][1], long long int nbr)
 		write(1, "0", 1);
 		len++;
 	}
-	print_frontnb(flags, 'i');
-	ft_putnbr(nbr);
+	ft_putlongnbr(nbr);
 	print_endspaces(flags, len);
 }
 
-void	print_octal(int flags[7][1], long long int nbr)
+void			print_octal(int flags[7][1], long long int nbr)
 {
 	unsigned int	len;
 	long long int	conv;
@@ -49,12 +48,12 @@ void	print_octal(int flags[7][1], long long int nbr)
 	}
 	print_frontnb(flags, 'o');
 	nbr = ft_nbrrev((int)(conv));
-	ft_putnbr(nbr);
+	ft_putlongnbr(nbr);
 	len = ft_nbrlen(nbr);
 	print_endspaces(flags, len);
 }
 
-void	print_hexa(int flags[7][1], char letter, long long int nbr)
+void			print_hexa(int flags[7][1], char letter, long long int nbr)
 {
 	char			*conv;
 	int				len;
@@ -75,7 +74,6 @@ void	print_hexa(int flags[7][1], char letter, long long int nbr)
 	len = ft_strlen(conv);
 	flags[6][0] = (flags[6][0] > len) ? flags[6][0] : len;
 	flags[6][0] = (flags[0][0] == 1) ? flags[6][0] + 2: flags[6][0];
-//	printf("flags[6] = %d, len = %d\n", flags[6][0], len);
 	print_frontspaces(flags, -1, flags[6][0] - len + 1);
 	print_frontnb(flags, let);
 	while (flags[6][0] > 0 && len + 2 * flags[0][0] < flags[6][0]--)
@@ -85,28 +83,42 @@ void	print_hexa(int flags[7][1], char letter, long long int nbr)
 	free(conv);
 }
 
-void	print_double(va_list ap, int flags[7][1])
+long long int	ft_round(long double nb, int mode)
 {
-	int		len;
-	int		ret;
+	int ret;
+
+	if (mode == 0)
+	{
+		ret = nb * 10;
+		nb = (ret % 10 > 4) ? nb + 1 : nb;
+	}
+	return (nb);
+}
+
+void			print_double(va_list ap, int flags[7][1])
+{
+	int			len;
+	int			ret;
 	double	nb;
 
 	flags[6][0] = (flags[6][0] == -1) ? 6 : flags[6][0];
 	nb = va_arg(ap, double);
 	len = ft_nbrlen(nb);
-	print_frontspaces(flags, nb, len);
-	print_frontnb(flags, 'f');
-	ft_putnbr(nb);
-	if (flags[6][0] >= 0 || flags[0][0] == 1)
+	print_frontspaces(flags, nb, flags[6][0] + len + 1);
+	ft_putlongnbr(ft_round(nb, flags[6][0]));
+	if ((flags[6][0] >= 0 || flags[0][0] == 1) && ++len)
 		ft_putchar('.');
 	if (flags[6][0])
 	{
 		ret = nb;
 		nb = nb - ret;
-		while (flags[6][0]--)
-			nb = nb * 10; 
+		while (flags[6][0]-- && ++len)
+		{
+			nb = nb * 10;
+			printf("\nnb = %f\n", nb);
+		}
 		if (nb)
-			ft_putnbr(nb);
+			ft_putlongnbr(ft_round(nb, 0));
 	}
-	print_endspaces(flags, ft_nbrlen(nb));
+	print_endspaces(flags, len - 1);
 }

@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 05:51:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/05 03:17:20 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 05:39:50 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_frontspaces(int flags[7][1], long double nb, int len)
 			write(1, " ", 1);
 		flags[5][0]--;
 	}
-	if (!flags[4][0] && flags[5][0] && flags[1][0]  && nb >= 0)
+	if (!flags[4][0] && flags[1][0]  && nb >= 0)
 		write(1, "+", 1);
 }
 
@@ -45,7 +45,7 @@ void	print_frontnb(int flags[7][1], char c)
 
 void	print_endspaces(int flags[7][1], int len)
 {
-	if (flags[1][0] == 1)
+	if (flags[1][0] == 1 || flags[2][0])
 		len++;
 	while (flags[3][0] && flags[5][0] && (flags[5][0] - len - 1> 0))
 	{
