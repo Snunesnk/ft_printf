@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/05 21:22:14 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 23:44:50 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	ft_printf(const char *format, ...)
 	int		pos;
 	va_list	ap;
 	char	buffer[2000];
+	va_list	(*all_ft[5])(int flags[7][1], va_list ap, char buff[2000], int pos);
 
 	buffer[1999] = '\0';
 	pos = 0;
