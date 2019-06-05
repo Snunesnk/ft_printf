@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 15:23:05 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/05 05:55:13 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 19:15:55 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,9 @@ void			print_double(va_list ap, int flags[7][1])
 		nb = nb - ret;
 		while (flags[6][0]-- && ++len)
 		{
-			nb = nb * 10;
-			printf("\nnb = %f\n", nb);
+			ret = nb;
+//			printf("\nnb = %f, ret = %d\n", nb, ret);
+			nb = (ret - nb < -0.9999) ? (ret + 1) * 10 : nb * 10;
 		}
 		if (nb)
 			ft_putlongnbr(ft_round(nb, 0));

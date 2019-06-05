@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:36:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/05 05:52:20 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 21:13:39 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(void)
 	(void)str;
 	test = 42;
 	to_print = 142.759;
-	printf("vrai printf : |%#+017.10f|\n", to_print);
-	ft_printf("faux printf : |%#+017.10f|\n", to_print);
+	printf("vrai printf : |%#+-7.1f|\n", to_print);
+	ft_printf("faux printf : |%#+-7.1f|\n", to_print);
 	return (0);
 }

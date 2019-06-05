@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/04 22:33:17 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 21:22:14 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,15 @@ void	print_ptr(va_list ap, int flags[7][1])
 		write(1, " ", 1);
 }
 
-int	get_next_percent(const char *str, int pos)
+int	get_next_percent(const char *str, int pos, char buff[2000])
 {
 	while (str[pos])
 	{
 		if ((pos > 0 && str[pos - 1] != '%' && str[pos] == '%')
 				|| (pos == 0 && str[pos] == '%'))
-		{
 			return (pos);
-		}
 		write(1, &(str[pos]), 1);
+		buff[pos] = str[pos];
 		++pos;
 	}
 	return (0);
@@ -97,12 +96,15 @@ int	ft_printf(const char *format, ...)
 {
 	int		pos;
 	va_list	ap;
+	char	buffer[2000];
 
+	buffer[1999] = '\0';
 	pos = 0;
 	va_start(ap, format);
-	while ((pos = get_next_percent(format, pos)) != 0)
+	while ((pos = get_next_percent(format, pos, buffer)) != 0)
 	{
 		pos++;
+		printf("\nbuffer = %s\n", buffer);
 		find_first_flags(format, &pos, ap);
 	}
 	va_end(ap);
