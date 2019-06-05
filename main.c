@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:36:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/04 02:09:00 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 03:55:20 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(void)
 
 	test = 42;
 	to_print = 42.759;
-	printf("vrai printf : %f \n", to_print);
-	ft_printf("test avec float %f et : %.10f, ainsi que : %d\n", to_print, to_print, test);
+	printf("vrai printf : |%17.x| \n", test);
+	ft_printf("faux printf : |%17.x| et : %.10f, ainsi que : %d\n", test, to_print, test);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/04 07:14:27 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/04 22:33:17 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,7 @@ int	ft_printf(const char *format, ...)
 	while ((pos = get_next_percent(format, pos)) != 0)
 	{
 		pos++;
-		if((find_first_flags(format, &pos, ap) == -1))
-			return (-1);
+		find_first_flags(format, &pos, ap);
 	}
 	va_end(ap);
 	return (0);

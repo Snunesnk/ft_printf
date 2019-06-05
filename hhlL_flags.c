@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 19:26:26 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/04 07:34:45 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/05 01:05:58 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_lint(va_list ap, char c, int flags[7][1])
 		print_hexa(flags, c, nb);
 }
 
-void	print_Ldouble(va_list ap, char c, int flags[7][1])
+void	print_Ldouble(va_list ap, int flags[7][1])
 {
 	int			print;
 	int			ret;
