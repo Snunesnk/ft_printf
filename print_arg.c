@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:35:49 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/05 19:15:57 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/06 18:45:48 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int get_nbr(const char *str, int *pos)
 	return (position);	
 }
 
-void	find_douixXf(const char *str, int *pos, va_list ap, int flags[7][1])
+int	find_douixXf(const char *str, int *pos, va_list ap, int flags[7][1])
 {
 	if ((str[*pos] == 'd' || str[*pos] == 'i') && ++(*pos))
 		print_nbr(flags, va_arg(ap, int));
@@ -43,7 +43,7 @@ void	find_douixXf(const char *str, int *pos, va_list ap, int flags[7][1])
 		print_double(ap, flags);
 }
 
-void	find_hhllL(const char *str, int *pos, va_list ap, int flags[7][1])
+int	find_hhllL(const char *str, int *pos, va_list ap, int flags[7][1])
 {
 	if (str[*pos] == 'h' && str[*pos + 1] == 'h' && (*pos += 3))
 		print_sint(ap, str[*pos - 1], flags);
@@ -59,31 +59,24 @@ void	find_hhllL(const char *str, int *pos, va_list ap, int flags[7][1])
 		find_douixXf(str, pos, ap, flags);
 }
 
-void	find_csp(const char *str, int *pos, va_list ap, int flags[7][1])
+int	find_csp(const char *str, int *pos, va_list ap, int flags[7][1])
 {
 	flags[6][0] = -1;
 	if (str[*pos] == '.' && ++(*pos))
 		 flags[6][0] = get_nbr(str, pos);
 	if (str[*pos] == 'c' && ++(*pos))
-		print_char(ap, flags);
-	else if (str[*pos] == 's' && ++(*pos))
-		print_str(ap, flags);
-	else if (str[*pos] == 'p' && ++(*pos))
-		print_ptr(ap, flags);
-	else
-		find_hhllL(str, pos, ap, flags);
+		return (1);
+	if (str[*pos] == 's' && ++(*pos))
+		return (2);
+	if (str[*pos] == 'p' && ++(*pos))
+		return (3);
+	return (find_hhllL(str, pos, ap, flags));
 }
 
-void	find_first_flags(const char *str, int *pos, va_list ap)
+int	find_first_flags(const char *str, int *pos, va_list ap, int flags[7][1])
 {
-	int i;
-	int flags[7][1];
-
-	i = 0;
 	if (str[*pos] == '%' && ++(*pos))
-		return ((void)i);
-	while (i < 7)
-		flags[i++][0] = 0;
+		return (0);
 	while ((!ft_isalnum(str[*pos]) || str[*pos] == '0') && str[*pos] != '.')
 	{
 		if (str[*pos] == '#' && ++(*pos))
@@ -99,5 +92,5 @@ void	find_first_flags(const char *str, int *pos, va_list ap)
 	}
 	order_flags(flags);
 	flags[5][0] = get_nbr(str, pos);
-	find_csp(str, pos, ap, flags);
+	return (find_csp(str, pos, ap, flags));
 }

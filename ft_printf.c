@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/05 23:44:50 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/06 18:45:42 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,16 @@ int	get_next_percent(const char *str, int pos, char buff[2000])
 
 int	ft_printf(const char *format, ...)
 {
+	int		flags[8][1];
+	int		i;
 	int		pos;
 	va_list	ap;
 	char	buffer[2000];
 	va_list	(*all_ft[5])(int flags[7][1], va_list ap, char buff[2000], int pos);
 
+	i = 0;
+	while (i < 7)
+		flags[i++][0] = 0;
 	buffer[1999] = '\0';
 	pos = 0;
 	va_start(ap, format);
@@ -106,7 +111,8 @@ int	ft_printf(const char *format, ...)
 	{
 		pos++;
 		printf("\nbuffer = %s\n", buffer);
-		find_first_flags(format, &pos, ap);
+		i = find_first_flags(format, &pos, ap, flags);
+		(*all_ft[i])(flags, ap, buff, pos);
 	}
 	va_end(ap);
 	return (0);
