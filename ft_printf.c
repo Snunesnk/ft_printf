@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/06 18:45:42 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/07 13:43:55 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,41 +78,41 @@ void	print_ptr(va_list ap, int flags[7][1])
 		write(1, " ", 1);
 }
 
-int	get_next_percent(const char *str, int pos, char buff[2000])
+int	get_next_percent(const char *str, int flags[9][1], char buff[2000])
 {
+	int pos;
+
+	pos = flags[9][0];
 	while (str[pos])
 	{
 		if ((pos > 0 && str[pos - 1] != '%' && str[pos] == '%')
 				|| (pos == 0 && str[pos] == '%'))
 			return (pos);
-		write(1, &(str[pos]), 1);
-		buff[pos] = str[pos];
+		buff[flags[8][0]] = str[pos];
 		++pos;
+		flags[9][0] = pos;
+		flags[8][0] += 1;
 	}
-	return (0);
+	return (-1);
 }
 
 int	ft_printf(const char *format, ...)
 {
-	int		flags[8][1];
+	int		flags[10][1];
 	int		i;
-	int		pos;
 	va_list	ap;
 	char	buffer[2000];
-	va_list	(*all_ft[5])(int flags[7][1], va_list ap, char buff[2000], int pos);
+	int	(*all_ft[5])(int flags[7][1], va_list ap, char buff[2000], int pos);
 
 	i = 0;
-	while (i < 7)
+	while (i < 10)
 		flags[i++][0] = 0;
 	buffer[1999] = '\0';
-	pos = 0;
 	va_start(ap, format);
-	while ((pos = get_next_percent(format, pos, buffer)) != 0)
+	while ((flags[9][0] = get_next_percent(format, flags, buffer) + 1) != 0)
 	{
-		pos++;
-		printf("\nbuffer = %s\n", buffer);
-		i = find_first_flags(format, &pos, ap, flags);
-		(*all_ft[i])(flags, ap, buff, pos);
+		i = find_first_flags(format, ap, flags);
+		(*all_ft[i])(flags, ap, buff);
 	}
 	va_end(ap);
 	return (0);

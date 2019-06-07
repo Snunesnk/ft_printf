@@ -6,14 +6,14 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 17:44:26 by snunes            #+#    #+#             */
-/*   Updated: 2019/05/29 18:08:37 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/07 13:05:56 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_nbrrev(int nbr)
+long long int ft_nbrrev(long long int nbr)
 {
 	int len;
-	int ret;
+	long long int ret;
 
 	ret = nbr;
 	len = 1;
