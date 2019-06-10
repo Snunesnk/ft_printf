@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 14:41:56 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/07 16:45:49 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/10 19:24:36 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,53 @@
 
 int	ft_store_nbr(int flags[10][1], char buff[2000], long long int nbr)
 {
-	store_fspaces(flags, nbr >= 0, len , buff)
+	long long int ret;
+	int len;
+
+	ret = nb;
+	while (ret > 0 && ++len)
+		ret /= 10;
+	len = store_fspaces(flags, nbr >= 0, len, buff)
 	while (nbr)
 	{
 		buff[flags[8][0]++] = nbr % 10 + 48;
 		nbr /= 10;
 	}
-	return (1);
+	return (store_espaces(flags, len, buff));
 }
 
-int ft_store_oct(flags[10][1], char buff[2000], unsigned int nbr)
+int ft_store_oct(int flags[10][1], char buff[2000], unsigned long long int nbr)
 {
-	unsigned int	len;
-	long long int	conv;
+	int						len;
+	unsigned long long int	ret;
 
-	conv = 0;
-	while (nbr > 1)
+	len = 0;
+	ret = nbr;
+	while (ret > 0 && ++len)
+		ret = ret / 8;
+	len = print_frontspaces(flags, 1, len, buff);
+	while (nb > 1)
 	{
-		conv = conv * 10 + nbr % 8;
-		nbr = nbr / 8;
+		buff[flags[8][0]++] = nb % 8 + '0';
+		nb /= 8;
 	}
-	len = ft_nbrlen(conv);
-	flags[6][0] = ((unsigned int)flags[6][0] > len) ? flags[6][0] : len + 1;
-	print_frontspaces(flags, -1, flags[6][0] - len + 1);
-	while (flags[6][0] > 0 && len + flags[0][0] < (unsigned int)flags[6][0])
+	return (store_espaces(flags, len, buff));
+}
+
+int	ft_store_hex(int flags[10][1], char bf[2000], unsigned long long int nb)
+{
+	int					len;
+	unsigned long long	ret;
+
+	len = 0;
+	ret = nb;
+	while (ret > 0 && ++len)
+		ret /= 16;
+	len = print_frontspaces(flags, 1, len, buff);
+	while (nb > 1)
 	{
-		buff[flags[8][0]++] = '0';
-		len++;
+		bf[flags[8][0]++] = (nb % 16 > 10) ? 'A' + nb % 16 - 10 : '0' + nb % 10;
+		nb /= 16;
 	}
-	nbr = ft_nbrrev((int)(conv));
-	ft_putlongnbir(nbr);
-	len = ft_nbrlen(nbr);
-	print_endspaces(flags, len);
+	return (store_espaces(flags, len, buff));
 }

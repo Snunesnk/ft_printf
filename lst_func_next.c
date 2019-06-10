@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 12:21:59 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/07 14:32:09 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/10 17:51:13 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,32 @@ int ft_get_L_double(int flags[10][1], va_list ap, char buff[2000])
 		buff[flags[8][0]++] = next_dec(nbr, part) % 10 + 48;
 	store_espaces(flags, len + flags[6][0]);
 	return (0);
+}
+
+int ft_get_ull_int(int flags[10][1], va_list ap, char buff[2000])
+{
+	unsigned long long int nbr;
+
+	nbr = va_arg(ap, unsigned long long int);
+	if (flags[7][0] == 100 || flags[7][0] == 105 || flags[7][0] == 117)
+		return (ft_store_un_nbr(flags, buff));
+	if (flags[7][0] == 111)
+		return (ft_store_oct(flags, buff));
+	if (flags[7][0] == 120 || flags[7][0] == 88)
+		return (ft_store_hex(flags, buff));
+	return (-1);
+}
+
+int	ft_get_ul_int(int flags[10][1], va_list ap, char buff[2000])
+{
+	unsigned long int nbr;
+
+	nbr = va_arg(ap, unsigned long int);
+	if (flags[7][0] == 100 || flags[7][0] == 105 || flags[7][0] == 117)
+		return (ft_store_nbr(flags, buff));
+	if (flags[7][0] == 111)
+		return (ft_store_oct(flags, buff));
+	if (flags[7][0] == 120 || flags[7][0] == 88)
+		return (ft_store_hex(flags, buff));
+	return (-1);
 }

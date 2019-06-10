@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/07 13:43:55 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/10 19:30:20 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,22 @@ int	ft_printf(const char *format, ...)
 	int		flags[10][1];
 	int		i;
 	va_list	ap;
-	char	buffer[2000];
-	int	(*all_ft[5])(int flags[7][1], va_list ap, char buff[2000], int pos);
+	char	buff[2000];
+	int	(*all_ft[5])(int flags[7][1], va_list ap, char buff[2000]);
 
 	i = 0;
 	while (i < 10)
 		flags[i++][0] = 0;
-	buffer[1999] = '\0';
+	buff[1999] = '\0';
 	va_start(ap, format);
-	while ((flags[9][0] = get_next_percent(format, flags, buffer) + 1) != 0)
+	while ((flags[9][0] = get_next_percent(format, flags, buff) + 1) != 0)
 	{
+		buff[flags[8][0]] = '\0';
+		ft_putstr(buff);
 		i = find_first_flags(format, ap, flags);
 		(*all_ft[i])(flags, ap, buff);
+		buff[flags[8][0]] = '\0';
+		ft_putstr(buff);
 	}
 	va_end(ap);
 	return (0);

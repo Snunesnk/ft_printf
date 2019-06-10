@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   print_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/28 18:35:49 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/07 16:45:47 by snunes           ###   ########.fr       */
+/*   Created: 2019/06/10 16:30:10 by snunes            #+#    #+#             */
+/*   Updated: 2019/06/10 21:03:15 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	find_douixXf(const char *str, int *pos, va_list ap, int flags[7][1])
 		print_hexa(flags, str[*pos - 1], va_arg(ap, unsigned int));
 	else if (str[*pos] == 'f' && ++(*pos))
 		print_double(ap, flags);
+	return (1);
 }
 
 int	find_hhllL(const char *str, va_list ap, int flags[7][1])
@@ -51,7 +52,7 @@ int	find_hhllL(const char *str, va_list ap, int flags[7][1])
 	if (str[pos] == 'h' && str[pos + 1] == 'h' && (pos += 3))
 		print_sint(ap, str[pos - 1], flags);
 	else if (str[pos] == 'h' && (pos += 2))
-		print_sint(ap, str[*pos - 1], flags);
+		print_sint(ap, str[pos - 1], flags);
 	else if (str[pos] == 'l' && str[pos + 1] == 'l' && (pos += 3))
 		print_llint(ap, str[pos - 1], flags);
 	else if (str[pos] == 'l' && (pos += 2))
@@ -59,14 +60,15 @@ int	find_hhllL(const char *str, va_list ap, int flags[7][1])
 	else if (str[pos] == 'L' && (pos += 2))
 		print_Ldouble(ap, flags);
 	else
-		find_douixXf(str, pos, ap, flags);
+		find_douixXf(str, &pos, ap, flags);
+	return (1);
 }
 
 int	find_csp(const char *str, va_list ap, int flags[10][1])
 {
 	flags[6][0] = -1;
 	if (str[flags[9][0]] == '.' && ++flags[9][0])
-		 flags[6][0] = get_nbr(str, flags[9][0]);
+		 flags[6][0] = get_nbr(str, &flags[9][0]);
 	if (str[flags[9][0]] == 'c' && ++flags[9][0])
 		return (1);
 	if (str[flags[9][0]] == 's' && ++flags[9][0])
@@ -81,19 +83,19 @@ int	find_first_flags(const char *str, va_list ap, int flags[10][1])
 	int pos;
 
 	pos = flags[9][0];
-	if (str[*pos] == '%' && ++(*pos))
+	if (str[pos] == '%' && ++(pos))
 		return (0);
-	while ((!ft_isalnum(str[*pos]) || str[*pos] == '0') && str[*pos] != '.')
+	while ((!ft_isalnum(str[pos]) || str[pos] == '0') && str[pos] != '.')
 	{
-		if (str[*pos] == '#' && ++(*pos))
+		if (str[pos] == '#' && ++(pos))
 			flags[0][0] = 1;
-		if (str[*pos] == '+' && ++(*pos))
+		if (str[pos] == '+' && ++(pos))
 			flags[1][0] = 1;
-		if (str[*pos] == ' '  && ++(*pos))
+		if (str[pos] == ' '  && ++(pos))
 			flags[2][0] = 1;
-		if (str[*pos] == '-' && ++(*pos))
+		if (str[pos] == '-' && ++(pos))
 			flags[3][0] = 1;
-		if (str[*pos] == '0' && ++(*pos))
+		if (str[pos] == '0' && ++(pos))
 			flags[4][0] = 1;
 	}
 	order_flags(flags);
