@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:36:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 16:43:15 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/12 20:24:48 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ int main(void)
 	(void)str;
 	test = 42;
 	to_print = 142.759;
-	printf("Vrai printf :\n");
-	printf("\\!/%32lc\\!/\n", (char)0);
-	printf("ft_printf :\n");
-	ft_printf("\\!/%32lc\\!/\n", (char)0);
+	printf("vrai printf : |%08i|\n", -71);
+	ft_printf("faux printf : |%08i|\n", -71);
 	return (0);
 }

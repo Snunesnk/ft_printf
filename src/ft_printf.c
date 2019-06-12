@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 16:44:52 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/12 19:13:23 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ int	ft_printf(const char *format, ...)
 	int		i;
 	va_list	ap;
 	char	buff[2000];
-		i = 0;
+	int		len;
+	
+	len = 0;
+	i = 0;
 	while (i < 10)
 		flags[i++][0] = 0;
 	buff[1999] = '\0';
@@ -117,6 +120,7 @@ int	ft_printf(const char *format, ...)
 	//	printf("sortie get_percent, flags[9][0] = %d, str = %c\n", flags[9][0], format[flags[9][0]]);
 		buff[flags[8][0]] = '\0';
 		ft_putstr(buff);
+		len += flags[8][0];
 		flags[8][0] = 0;
 		i = find_first_flags(format, flags) - 1;
 	//printf("on a nb = %d\n", i);
@@ -124,13 +128,15 @@ int	ft_printf(const char *format, ...)
 			(*g_func[i])(flags, ap, buff);
 		buff[flags[8][0]] = '\0';
 		ft_putstr(buff);
+		len += flags[8][0];
 		flags[8][0] = 0;
 //		printf("position sur la chaine = %d\n", flags[9][0]);
 	//	printf("a la recherche du prochain arg\n");
 	}
 	buff[flags[8][0]] = '\0';
 	ft_putstr(buff);
+	len += flags[8][0];
 	//printf("plus de argument\n");
 	va_end(ap);
-	return (0);
+	return (len);
 }

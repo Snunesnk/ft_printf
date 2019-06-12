@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 14:41:56 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 16:44:48 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/12 20:24:56 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,25 @@ int	store_nb(int flags[10][1], char buff[2000], long long int nb)
 {
 	long long int ret;
 	int len;
+	long long pow;
 
-	len = 0;
-	ret = nb;
-	while (ret > 0 && ++len)
+	pow = 1;
+	len = 1;
+	if (nb == 0 && flags[6][0] == 0)
+		return (0);
+	ret = (nb >= 0) ? nb : -1 * nb;
+	while (ret / 10 && ++len)
 		ret /= 10;
+	ret = len;
+//	printf("len = %d, ret = %lld, largeur = %d, preci = %d\n", len, ret, flags[5][0], flags[6][0]);
 	len = store_fspaces(flags, nb >= 0, len, buff);
-	while (nb)
+	nb = (nb > 0) ? nb : -1 * nb;
+	while (ret > 1 && ret--)
+		pow *= 10;
+	while (pow)
 	{
-		buff[flags[8][0]++] = nb % 10 + 48;
-		nb /= 10;
+		buff[flags[8][0]++] = nb / pow % 10 + 48;
+		pow /= 10;
 	}
 	return (store_espaces(flags, len, buff));
 }

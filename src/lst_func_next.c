@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 12:21:59 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 16:39:51 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/12 19:52:41 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	get_l_int(int flags[10][1], va_list ap, char buff[2000])
 {
 	long int nbr;
 
-	printf("entree long int\n");
 	nbr = va_arg(ap, long int);
-	if (flags[7][0] == 'd' || flags[7][0] == 'i')
+	if (flags[7][0] == 'd' || flags[7][0] == 'i' || flags[7][0] == 'D')
 		return (store_nb(flags, buff, nbr));
 	if (flags[7][0] == 'o')
 		return (store_oct(flags, buff, nbr));
@@ -34,7 +33,7 @@ int get_ll_int(int flags[10][1], va_list ap, char buff[2000])
 	long long int nbr;
 
 	nbr = va_arg(ap, long long int);
-	if (flags[7][0] == 'd' || flags[7][0] == 'i')
+	if (flags[7][0] == 'd' || flags[7][0] == 'i' || flags[7][0] == 'D')
 		return (store_nb(flags, buff, nbr));
 	if (flags[7][0] == 'o')
 		return (store_oct(flags, buff, nbr));

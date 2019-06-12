@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 10:23:23 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 16:34:13 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/12 19:51:38 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	get_int(int flags[10][1], va_list ap, char buff[2000])
 	int nbr;
 
 	nbr = va_arg(ap, int);
-	if (flags[7][0] == 'd' || flags[7][0] == 'i')
+//	printf("nbr recup = %d\n", nbr);
+	if (flags[7][0] == 'd' || flags[7][0] == 'i' || flags[7][0] == 'D')
 		return (store_nb(flags, buff, nbr));
 	if (flags[7][0] == 'o')
 		return (store_oct(flags, buff, nbr));
@@ -104,7 +105,7 @@ int get_hh_int(int flags[10][1], va_list ap, char buff[2000])
 	signed char nbr;
 
 	nbr = va_arg(ap, int);
-	if (flags[7][0] == 'd' || flags[7][0] == 'i')
+	if (flags[7][0] == 'd' || flags[7][0] == 'i' || flags[7][0] == 'D')
 		return (store_nb(flags, buff, nbr));
 	if (flags[7][0] == 'o')
 		return (store_oct(flags, buff, nbr));
@@ -120,7 +121,7 @@ int	get_h_int(int flags[10][1], va_list ap, char buff[2000])
 	short int nbr;
 
 	nbr = va_arg(ap, int);
-	if (flags[7][0] == 'd' || flags[7][0] == 'i')
+	if (flags[7][0] == 'd' || flags[7][0] == 'i' || flags[7][0] == 'D')
 		return (store_nb(flags, buff, nbr));
 	if (flags[7][0] == 'o')
 		return (store_oct(flags, buff, nbr));

@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 05:51:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 15:47:35 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/12 20:24:54 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 
 int	store_fspaces(int flags[10][1], int sign, int len, char buff[2000])
 {
+	flags[1][0] = (sign <= 0) ? 1 : flags[1][0];
+	flags[6][0] = (flags[6][0] > len) ? flags[6][0] : len;
 	if (flags[0][0] == 1 && (flags[7][0] == 'o' || flags[7][0] == 'x'
-			|| flags[7][0] == 'X') && ++len)
+			|| flags[7][0] == 'X') && --flags[5][0])
 		buff[flags[8][0]++] = '0';
-	if (flags[0][0] == 1 && flags[7][0] == 'x' && ++len)
+	if (flags[0][0] == 1 && flags[7][0] == 'x' && --flags[5][0])
 		buff[flags[8][0]] = 'x';
-	if (flags[0][0] == 1 && flags[7][0] == 'X' && ++len)
+	if (flags[0][0] == 1 && flags[7][0] == 'X' && --flags[5][0])
 		buff[flags[8][0]++] = 'X';
-	if (flags[2][0] == 1 && sign >= 0 && ++len)
+	if (flags[2][0] == 1 && sign > 0 && --flags[5][0])
 		buff[flags[8][0]++] = ' ';
-	if (flags[1][0] == 1  && ++len)
-		buff[flags[8][0]++] = (sign >= 0) ? '+' : '-';
-	else if (sign < 0 && ++len)
-		buff[flags[8][0]++] = '-';
+	if (flags[1][0] == 1  && flags[4][0] && --flags[5][0])
+		buff[flags[8][0]++] = (sign > 0) ? '+' : '-';
+	while (!flags[3][0] && --flags[5][0] > flags[6][0])
+		buff[flags[8][0]++] = (flags[4][0] == 1) ? '0' : ' ';
+	if (!flags[4][0] && flags[1][0])
+		buff[flags[8][0]++] = (sign <= 0) ? '-' : '+';
 	while (len++ < flags[6][0])
 		buff[flags[8][0]++] = '0';
-	while (!flags[3][0] && flags[5][0] > len++)
-		buff[flags[8][0]++] = (flags[4][0] == 1) ? '0' : ' ';
 	return (len);
 }
 int	store_espaces(int flags[10][1], int len, char buff[2000])

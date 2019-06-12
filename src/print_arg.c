@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:30:10 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 16:44:50 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/12 20:24:52 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ int	find_douixXf(const char *str, int pos)
 		nb = 2;
 	else if (str[pos] == 'p')
 		nb = 3;
-	else if ((str[pos] == 'd' || str[pos] == 'i'))
+	else if (str[pos] == 'd' || str[pos] == 'i')
 		nb = 15;
 	else if (str[pos] == 'o' || str[pos] == 'x' || str[pos] == 'X'
 			|| str[pos] == 'u')
 		nb = 15;
 	else if (str[pos] == 'f')
 		nb = 13;
+	else if (str[pos] == 'D')
+		nb = 8;
 	return (nb);
 }
 
@@ -71,6 +73,7 @@ int	find_hhllL(const char *str, int flags[10][1])
 		flags[7][0] = str[pos];
 	else
 		nb = find_douixXf(str, pos);
+	flags[7][0] = str[pos];
 	flags[9][0] = pos + 1;
 	nb = (str[pos] == 'd' || str[pos] == 'i') ? nb - 1 : nb;
 	return (nb);
