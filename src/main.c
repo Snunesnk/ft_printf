@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:36:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 20:24:48 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/14 16:12:01 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,9 @@
 
 int main(void)
 {
-	float to_print;
-	int test;
-	char c;
-	char str[] = "Hello World!";
-
-	c = '\0';
-	(void)str;
-	test = 42;
-	to_print = 142.759;
-	printf("vrai printf : |%08i|\n", -71);
-	ft_printf("faux printf : |%08i|\n", -71);
+	printf("vrai printf :\n");
+	printf("|%014d|", 12587499);
+	printf("\nfaux printf :\n");
+	ft_printf("|%014d|", 12587499);
 	return (0);
 }

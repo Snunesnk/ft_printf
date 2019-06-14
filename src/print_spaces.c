@@ -6,102 +6,102 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 05:51:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/12 20:24:54 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/14 16:21:06 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	store_fspaces(int flags[10][1], int sign, int len, char buff[2000])
+int	put_attribute(t_flags *flag, char buff[2000], int mode, int gap)
 {
-	flags[1][0] = (sign <= 0) ? 1 : flags[1][0];
-	flags[6][0] = (flags[6][0] > len) ? flags[6][0] : len;
-	if (flags[0][0] == 1 && (flags[7][0] == 'o' || flags[7][0] == 'x'
-			|| flags[7][0] == 'X') && --flags[5][0])
-		buff[flags[8][0]++] = '0';
-	if (flags[0][0] == 1 && flags[7][0] == 'x' && --flags[5][0])
-		buff[flags[8][0]] = 'x';
-	if (flags[0][0] == 1 && flags[7][0] == 'X' && --flags[5][0])
-		buff[flags[8][0]++] = 'X';
-	if (flags[2][0] == 1 && sign > 0 && --flags[5][0])
-		buff[flags[8][0]++] = ' ';
-	if (flags[1][0] == 1  && flags[4][0] && --flags[5][0])
-		buff[flags[8][0]++] = (sign > 0) ? '+' : '-';
-	while (!flags[3][0] && --flags[5][0] > flags[6][0])
-		buff[flags[8][0]++] = (flags[4][0] == 1) ? '0' : ' ';
-	if (!flags[4][0] && flags[1][0])
-		buff[flags[8][0]++] = (sign <= 0) ? '-' : '+';
-	while (len++ < flags[6][0])
-		buff[flags[8][0]++] = '0';
+	int len;
+
+	len = 0;
+	if (flag->diez == 1 && flag->conv == 'o' && !gap && flag->nb)
+	{
+		(mode == 1) ? ++len : (buff[flag->bpos++] = '0');
+	}
+	if (flag->diez == 1 && (flag->conv == 'x' || flag->conv == 'X') && flag->nb)
+	{
+		(mode == 1) ? ++len : (buff[flag->bpos++] = '0');
+	}
+	if (flag->diez == 1 && flag->conv == 'x' && flag->nb)
+	{
+		(mode == 1) ? ++len : (buff[flag->bpos++] = 'x');
+	}
+	if (flag->diez == 1 && flag->conv == 'X' && flag->nb)
+	{
+		(mode == 1) ? ++len : (buff[flag->bpos++] = 'X');	
+	}
 	return (len);
 }
-int	store_espaces(int flags[10][1], int len, char buff[2000])
+
+int	store_fspaces(t_flags *flag, int sign, int len, char buff[2000])
 {
-	while (flags[3][0] && flags[5][0] > len)
+	int gap;
+
+	gap = (flag->preci > len) ? flag->preci - len : 0;
+	flag->plus = (sign <= 0) ? 1 : flag->plus;
+	len += put_attribute(flag, buff, 1, gap);
+	if (flag->space == 1 && sign > 0 && ++len)
+		buff[flag->bpos++] = ' ';
+	if (flag->plus == 1 && flag->zero && ++len && !(flag->plus = 0))
+		buff[flag->bpos++] = (sign > 0) ? '+' : '-';
+	if (flag->zero)
+		put_attribute(flag, buff, 2, gap);
+	while (!flag->minus && flag->width > len + gap + flag->plus && ++len)
+		buff[flag->bpos++] = (flag->zero == 1) ? '0' : ' ';
+	if (!flag->zero && flag->plus && ++len)
+		buff[flag->bpos++] = (sign <= 0) ? '-' : '+';
+	if (!flag->zero)
+		put_attribute(flag, buff, 2, gap);
+	while (gap > 0 && gap-- && ++len)
+		buff[flag->bpos++] = '0';
+	return (len);
+}
+
+int	store_espaces(t_flags *flag, int len, char buff[2000])
+{
+	while (flag->minus && flag->width > len)
 	{
-		buff[flags[8][0]++] = ' ';
+		buff[flag->bpos++] = ' ';
 		len++;
 	}
 	return (len);
 }
 
-int	order_flags(int flags[7][1])
+int	order_flags(t_flags *flag)
 {
-	if (flags[1][0] == 1)
-		flags[2][0] = 0;
-	if (flags[3][0] == 1)
-		flags[4][0] = 0;
+	if (flag->plus == 1)
+		flag->space = 0;
+	if (flag->minus == 1)
+		flag->zero = 0;
+	if (flag->preci > -1)
+		flag->zero = 0;
 	return (1);
 }
 
-int	store_float_fspaces(int flags[10][1], int sign, int len, char bf[2000])
+int	store_float_fspaces(t_flags *flag, int sign, int len, char bf[2000])
 {
-	if (sign >= 0 && flags[2][0] && ++len)
-		bf[flags[8][0]++] = ' ';
-	if (sign >= 0 && flags[1][0] && ++len)
-		bf[flags[8][0]++] = '+';
-	while (flags[5][0]-- > len + flags[6][0] + flags[0][0])
+	if (sign >= 0 && flag->space && ++len)
+		bf[flag->bpos++] = ' ';
+	if (sign >= 0 && flag->plus && ++len)
+		bf[flag->bpos++] = '+';
+	while (flag->width-- > len + flag->preci + flag->diez)
 	{
-		if (flags[4][0])
-			bf[flags[8][0]++] = '0';
+		if (flag->zero)
+			bf[flag->bpos++] = '0';
 		else
-			bf[flags[8][0]++] = ' ';
+			bf[flag->bpos++] = ' ';
 	}
 	return (len);
 }
 
-int	store_nbr(int flags[10][1], long double nbr, char buff[2000], int mode)
+int store_nbr(t_flags *flag, long double nbr, char buff[2000], int mode)
 {
-
-	(void)flags;
+	(void)flag;
 	(void)nbr;
 	(void)buff;
 	(void)mode;
-	return (1);
-	/*	int				len;
-	int				i;
-	long long int	part;
-	long double		ret;
-	int				pow;
-	int				*bignbr;
-
-	pow = 0;
-	(void)part;
-	(void)flags;
-	(void)buff;
-	nbr = va_arg(ap, double);
-	while (ret > MAX_LLINT && ++pow)
-		ret /= MAX_LLINT;
-	bignbr = (int *)malloc(sizeof(int) * ((pow * MAX_LLINT) + ft_nbrlen(ret)));
-	nbr /= MAX_LLINT;
-	while (nbr >= 1)
-	{
-		part = ret;
-		while (part > 1)
-		{
-			bignbr[i++] = part % 10;
-			part /= 10;
-		}
-	}
-	return (pow);
-*/}
+	return (0);
+}
