@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 05:51:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/14 16:21:06 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 13:06:13 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,24 @@ int	put_attribute(t_flags *flag, char buff[2000], int mode, int gap)
 	int len;
 
 	len = 0;
+	if (flag->conv == 'p')
+	{
+		if (mode == 1)
+			len += 2;
+		else
+		{
+			buff[flag->bpos++] = '0';
+			buff[flag->bpos++] = 'x';
+		}
+	}
 	if (flag->diez == 1 && flag->conv == 'o' && !gap && flag->nb)
-	{
 		(mode == 1) ? ++len : (buff[flag->bpos++] = '0');
-	}
 	if (flag->diez == 1 && (flag->conv == 'x' || flag->conv == 'X') && flag->nb)
-	{
 		(mode == 1) ? ++len : (buff[flag->bpos++] = '0');
-	}
 	if (flag->diez == 1 && flag->conv == 'x' && flag->nb)
-	{
 		(mode == 1) ? ++len : (buff[flag->bpos++] = 'x');
-	}
 	if (flag->diez == 1 && flag->conv == 'X' && flag->nb)
-	{
 		(mode == 1) ? ++len : (buff[flag->bpos++] = 'X');	
-	}
 	return (len);
 }
 

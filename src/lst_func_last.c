@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 17:41:14 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/14 14:43:03 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 14:05:55 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	get_j_int(t_flags *flag, va_list ap, char buff[2000])
 	intmax_t nbr;
 
 	nbr = va_arg(ap, intmax_t);
-	if (flag->conv == 'd' || flag->conv == 'i')
+	if (flag->conv == 'd' || flag->conv == 'i' || flag->conv == 'D')
 		return (store_nb(flag, buff, nbr));
 	if (flag->conv == 'u')
 		return (store_unb(flag, buff, nbr));

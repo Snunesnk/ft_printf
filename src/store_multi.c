@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 14:41:56 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/14 16:21:09 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 14:05:58 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	store_nb(t_flags *flag, char buff[2000], intmax_t nb)
 	len = 1;
 	if (nb == 0 && flag->preci == 0)
 	{
-		(flag->plus == 1) ? buff[flag->bpos++] = '+' : 0;
-		(flag->space == 1) ? buff[flag->bpos++] = ' ' : 0;
+		store_fspaces(flag, nb >= 0, 1, buff);
 		return (0);
 	}
 	ret = (nb >= 0) ? nb : -1 * nb;
@@ -115,8 +114,8 @@ int	store_hex(t_flags *flag, char bf[2000], uintmax_t nb)
 	len = 1;
 	if (nb == 0 && flag->preci == 0)
 	{
-		(flag->plus == 1) ? bf[flag->bpos++] = '+' : 0;
-		(flag->space == 1) ? bf[flag->bpos++] = ' ' : 0;
+		flag->diez = 0;
+		bf[flag->bpos] += store_fspaces(flag, 1, 0, bf);
 		return (0);
 	}
 	ret = nb;
@@ -141,7 +140,7 @@ int store_char(t_flags *flag, char buff[2000], char c)
 {
 	while (!flag->minus && flag->width-- > 1)
 		buff[flag->bpos++] = ' ';
-	buff[flag->bpos] = (c == 0) ? -1 : 0;
+	buff[flag->bpos++] = (c == 0) ? -1 : c;
 	while (flag->minus && flag->width-- > 1)
 		buff[flag->bpos++] = ' ';
 	return (1);

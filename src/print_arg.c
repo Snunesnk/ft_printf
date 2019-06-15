@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:30:10 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/14 14:39:31 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 14:05:53 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	find_douixXf(const char *str, int pos)
 	else if (str[pos] == 'f')
 		nb = 13;
 	else if (str[pos] == 'D')
-		nb = 8;
+		nb = 9;
 	return (nb);
 }
 
-int	find_hhllL(const char *str, t_flags *flag)
+int	find_hhllL(const char *str, t_flags *flag, char buff[2000])
 {
 	int nb;
 	int pos;
@@ -60,6 +60,8 @@ int	find_hhllL(const char *str, t_flags *flag)
 	flag->preci = -1;
 	if (str[flag->spos] == '.' && ++flag->spos)
 		 flag->preci = get_nbr(str, &flag->spos);
+	if (str[flag->spos] == '%' && ++flag->spos)
+		return (store_char(flag, buff, '%'));
 	pos = flag->spos;
 	if (str[pos] == 'h' && str[pos + 1] == 'h' && (pos += 2) && (nb = 5))
 		flag->conv = str[pos];
@@ -78,17 +80,15 @@ int	find_hhllL(const char *str, t_flags *flag)
 	order_flags(flag);
 	flag->conv = str[pos];
 	flag->spos = pos + 1;
-	nb = (str[pos] == 'd' || str[pos] == 'i') ? nb - 1 : nb;
+	nb = (str[pos] == 'd' || str[pos] == 'i' || str[pos] == 'D') ? nb - 1 : nb;
 	return (nb);
 }
 
-int	find_first_flags(const char *str, t_flags *flag)
+int	find_first_flags(const char *str, t_flags *flag, char buff[2000])
 {
 	int pos;
 
 	pos = flag->spos--;
-	if (str[pos] == '%' && ++(pos) && ++flag->spos)
-		return (0);
 	while (flag->spos != pos)
 	{
 		flag->spos = pos;
@@ -106,5 +106,5 @@ int	find_first_flags(const char *str, t_flags *flag)
 	if (ft_isdigit(str[pos]))
 		flag->width = get_nbr(str, &pos);
 	flag->spos = pos;
-	return (find_hhllL(str, flag));
+	return (find_hhllL(str, flag, buff));
 }

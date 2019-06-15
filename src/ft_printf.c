@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/14 14:43:23 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 13:49:46 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,31 @@ int	print_str(t_flags *flag, va_list ap, char buff[2000])
 
 int	print_ptr(t_flags *flag, va_list ap, char bf[2000])
 {
-	void *ptr;
-	int i;
+	long int nb;
+	long int ret;
 	int len;
-	long int res;
-
-	i = 0;
-	bf[(*flag).bpos++] = '0';
-	bf[(*flag).bpos++] = 'x';
-	len = 2;
-	ptr = va_arg(ap, void*);
-	res = (long int)ptr;
-	while (res > 0 && ++len)
-		res /= 16;
-	while (!(*flag).minus && (*flag).width-- > len)
-		bf[(*flag).bpos++] = ' ';
-	res = (long int)ptr;
-	while (res > 0)
+	long long pw;
+	
+	ret = (long int)(va_arg(ap, void *));
+	nb = ret;
+	pw = 1;
+	len = 1;
+	ret = nb;
+	while (ret / 16 && ++len)
+		ret /= 16;
+	ret = len;
+	(nb == 0) ? (flag->nb = 0) : (flag->nb = 1);
+	len = store_fspaces(flag, 1, len, bf);
+	while (ret > 1 && ret--)
+		pw += 1;
+	ret = pw;
+	while (pw--)
 	{
-		(*flag).conv = (res % 16 > 10) ? 'a' + res % 16 - 10 : '0' + res % 10;
-		bf[(*flag).bpos++] = (*flag).conv;
-		res /= 16;
+		bf[flag->bpos + pw] = (nb % 16 > 9) ? nb % 16 - 10 + 97 : nb % 16 + 48;
+		nb /= 16;
 	}
-	while ((*flag).minus && (*flag).width-- > len)
-		bf[(*flag).bpos++] = ' ';
-	return (1);
+	flag->bpos += ret;
+	return (store_espaces(flag, len, bf));
 }
 
 int	get_next_percent(const char *str, t_flags *flag, char buff[2000])
@@ -128,14 +128,14 @@ int	ft_printf(const char *format, ...)
 	while ((flag.spos = get_next_percent(format, &flag, buff) + 1) != 0)
 	{
 	//	printf("sortie get_percent, flags[9][0] = %d, str = %c\n", flags[9][0], format[flags[9][0]]);
-		buff[flag.bpos] = 0;
+		buff[flag.bpos] = '\0';
 		ft_putstr(buff);
 		len += flag.bpos;
 		flag.bpos = 0;
 		//printf("on a nb = %d\n", i);
-		if((i = find_first_flags(format, &flag) - 1) >= 0)
+		if((i = find_first_flags(format, &flag, buff) - 1) >= 0)
 			(*g_func[i])(&flag, ap, buff);
-		buff[flag.bpos] = 0;
+		buff[flag.bpos] = '\0';
 		ft_putstr(buff);
 		len += flag.bpos;
 		flag.bpos = 0;

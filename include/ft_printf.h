@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 13:50:17 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/14 16:21:11 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 13:30:58 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	store_espaces(t_flags *flag, int len, char buff[2000]);
 int	store_fspaces(t_flags *flag, int sign, int len, char buff[2000]);
 int	get_nbr(const char *str, int *pos);
 int	find_douixXf(const char *str, int pos);
-int	find_hhllL(const char *str, t_flags *flag);
+int	find_hhllL(const char *str, t_flags *flag, char buff[2000]);
 int	find_csp(const char *str, t_flags *flag);
-int	find_first_flags(const char *str, t_flags *flag);
+int	find_first_flags(const char *str, t_flags *flag, char buff[2000]);
 int	get_uh_int(t_flags *flag, va_list ap, char buff[2000]);
 int	get_u_int(t_flags *flag, va_list ap, char buff[2000]);
 int	get_ul_int(t_flags *flag, va_list ap, char buff[2000]);
