@@ -6,14 +6,20 @@
 /*   By: snunes <snunes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 13:46:33 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/15 13:35:54 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 20:23:53 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 void	ft_putchar(char c)
 {
-	c = (c == -1) ? (char)0 : c;
-	write(1, &c, 1);
+	char	d;
+
+	d = (char)0;
+	if (c == -1)
+		write(1, &d, 1);
+	else
+		write(1, &c, 1);
 }

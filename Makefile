@@ -6,7 +6,7 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/14 11:30:16 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/15 17:34:03 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRC_NAME = 	ft_printf.c \
 		   	ft_bzero.c \
 			ft_strcat.c \
 			ft_strcpy.c \
-			reset_flags.c
+			reset_flags.c \
+			ft_nblen.c
 OBJ_PATH = obj
 I_PATH = include
 HEADERS = ft_printf.h libft.h

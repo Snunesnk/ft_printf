@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/15 13:49:46 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 20:23:51 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int print_char(t_flags *flag, va_list ap, char buff[2000])
 	c = (unsigned char)va_arg(ap, int);
 	while (!flag->minus && flag->width-- > 1)
 		buff[flag->bpos++] = ' ';
-	buff[flag->bpos++] = (c == 0) ? -1 : c;
+	buff[flag->bpos++] = (c == '\0') ? -1 : c;
 	while (flag->minus && flag->width-- > 1)
 		buff[flag->bpos++] = ' ';
 	return (1);
@@ -97,19 +97,17 @@ int	print_ptr(t_flags *flag, va_list ap, char bf[2000])
 
 int	get_next_percent(const char *str, t_flags *flag, char buff[2000])
 {
-	int pos;
 	int i;
 
 	i = 0;
 	ft_reset_flags(flag, 7);
-	pos = (*flag).spos;
-	while (str[pos])
+	while (str[flag->spos])
 	{
-		if ((str[pos] == '%'))
-			return (pos);
-		buff[(*flag).bpos++] = str[pos++];
+		if (str[flag->spos] == '%')
+			return (1);
+		buff[flag->bpos++] = str[flag->spos++];
 	}
-	return (-1);
+	return (0);
 }
 
 int	ft_printf(const char *format, ...)
@@ -125,27 +123,22 @@ int	ft_printf(const char *format, ...)
 	len = 0;
 	buff[1999] = '\0';
 	va_start(ap, format);
-	while ((flag.spos = get_next_percent(format, &flag, buff) + 1) != 0)
+	while (get_next_percent(format, &flag, buff))
 	{
-	//	printf("sortie get_percent, flags[9][0] = %d, str = %c\n", flags[9][0], format[flags[9][0]]);
 		buff[flag.bpos] = '\0';
 		ft_putstr(buff);
 		len += flag.bpos;
 		flag.bpos = 0;
-		//printf("on a nb = %d\n", i);
-		if((i = find_first_flags(format, &flag, buff) - 1) >= 0)
+		if ((i = find_first_flags(format, &flag) - 1) >= 0)
 			(*g_func[i])(&flag, ap, buff);
 		buff[flag.bpos] = '\0';
 		ft_putstr(buff);
 		len += flag.bpos;
 		flag.bpos = 0;
-//		printf("position sur la chaine = %d\n", flags[9][0]);
-	//	printf("a la recherche du prochain arg\n");
 	}
 	buff[flag.bpos] = 0;
 	ft_putstr(buff);
 	len += flag.bpos;
-	//printf("plus de argument\n");
 	va_end(ap);
 	return (len);
 }

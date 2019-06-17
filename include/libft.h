@@ -6,7 +6,7 @@
 /*   By: snunes <snunes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 19:07:48 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/07 13:12:29 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 17:34:36 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef	struct	s_list
 
 void			ft_putlongnbr(long long int nbr);
 long long int	ft_nbrrev(long long int nbr);
-int				ft_nbrlen(long long int nbr);
+int				ft_nblen(intmax_t nbr);
 void			ft_strrev(char *to_reverse);
 int				ft_sqrt(int nb);
 int				ft_lst_length(t_list *lst);

@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 05:51:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/15 13:06:13 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/15 17:54:27 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,38 @@ int	order_flags(t_flags *flag)
 
 int	store_float_fspaces(t_flags *flag, int sign, int len, char bf[2000])
 {
+	flag->plus = (sign == 0)  ? 1 : flag->plus;
+	len += flag->plus;
 	if (sign >= 0 && flag->space && ++len)
 		bf[flag->bpos++] = ' ';
-	if (sign >= 0 && flag->plus && ++len)
-		bf[flag->bpos++] = '+';
-	while (flag->width-- > len + flag->preci + flag->diez)
+	if (!flag->zero && flag->plus)
+		bf[flag->bpos++] = (sign == 1) ? '+' : '-';
+	while (flag->width-- > len + flag->preci)
 	{
 		if (flag->zero)
 			bf[flag->bpos++] = '0';
 		else
 			bf[flag->bpos++] = ' ';
 	}
+	if (flag->zero && flag->plus)
+		bf[flag->bpos++] = (sign == 1) ? '+' : '-';
 	return (len);
 }
 
-int store_nbr(t_flags *flag, long double nbr, char buff[2000], int mode)
+int	store_fnb(long double nbr, t_flags *flag, char buff[2000], int len)
 {
-	(void)flag;
-	(void)nbr;
-	(void)buff;
-	(void)mode;
-	return (0);
+	int length;
+	uintmax_t ret;
+
+	length = 0;
+	ret = nbr;
+	//printf("pow = %d\n", pow);
+	while (len--)
+	{
+		buff[flag->bpos + len] = ret % 10 + 48;
+		ret /= 10;
+		++length;
+	}
+	flag->bpos += length;
+ 	return (length);
 }

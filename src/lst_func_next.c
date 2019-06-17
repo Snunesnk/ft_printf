@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 12:21:59 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/15 13:53:05 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/17 11:49:23 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,30 @@ int get_ll_int(t_flags *flag, va_list ap, char buff[2000])
 
 int get_L_double(t_flags *flag, va_list ap, char buff[2000])
 {
-	long double ret;
-	long double nbr;
-	int 		len;
-	int 		preci;
-	
+	int len;
+	double nb;
+	intmax_t ret;
+	int pow;
+
 	flag->preci = (flag->preci == -1) ? 6 : flag->preci;
-	len = 0;
-	nbr = va_arg(ap, long double);
-	ret = nbr;
-	while (ret >= 1 && ++len)
-		ret /= 10;
-	len = store_float_fspaces(flag, nbr >= 0, len, buff);
-	flag->bpos += store_nbr(flag, nbr, buff, 1);
-	if (flag->diez == 1 || flag->preci >= 0)
-		buff[flag->bpos++] = '.';
-	preci = flag->preci;
-	while (preci--)
-		nbr *= 10;
-	flag->bpos += store_nbr(flag, nbr, buff, 2);
-	store_espaces(flag, len + flag->preci, buff);
-	return (1);
+	pow = 0;
+	nb = va_arg(ap, long double);
+	ret = nb;
+	len = ft_nblen(nb) + 1;
+	len = (flag->diez || flag->preci) ? len + 1 : len;
+	len += store_float_fspaces(flag, nb >= 0, len - 1, buff);
+	nb = (nb < 0) ? -nb : nb;
+	len += store_fnb(nb, flag, buff, ft_nblen(nb));
+	ret = nb;
+	nb = nb - ret;
+	ret = flag->preci;
+	while (ret-- )
+		nb *= 10;
+	nb = ((ret = nb * 10) % 10 >= 5) ? nb + 1 : nb;
+	(flag->diez == 1 || flag->preci > 0) ? (buff[flag->bpos++] = '.') : 0;
+	len += store_fnb(nb, flag, buff, flag->preci);
+	store_espaces(flag, len, buff);
+	return (len);
 }
 
 int get_ull_int(t_flags *flag, va_list ap, char buff[2000])

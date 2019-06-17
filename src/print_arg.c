@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:30:10 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/15 14:05:53 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/17 11:53:04 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	find_douixXf(const char *str, int pos)
 	return (nb);
 }
 
-int	find_hhllL(const char *str, t_flags *flag, char buff[2000])
+int	find_hhllL(const char *str, t_flags *flag)
 {
 	int nb;
 	int pos;
@@ -60,8 +60,6 @@ int	find_hhllL(const char *str, t_flags *flag, char buff[2000])
 	flag->preci = -1;
 	if (str[flag->spos] == '.' && ++flag->spos)
 		 flag->preci = get_nbr(str, &flag->spos);
-	if (str[flag->spos] == '%' && ++flag->spos)
-		return (store_char(flag, buff, '%'));
 	pos = flag->spos;
 	if (str[pos] == 'h' && str[pos + 1] == 'h' && (pos += 2) && (nb = 5))
 		flag->conv = str[pos];
@@ -69,7 +67,8 @@ int	find_hhllL(const char *str, t_flags *flag, char buff[2000])
 		flag->conv = str[pos];
 	else if (str[pos] == 'l' && str[pos + 1] == 'l' && (pos += 2) && (nb = 11))
 		flag->conv = str[pos];
-	else if ((str[pos] == 'l' || str[pos] == 'z') && (pos += 1) && (nb = 9))
+	else if ((str[pos] == 'l' || str[pos] == 'z') && (pos += 1) 
+			&& str[pos] != 'f' && (nb = 9))
 		flag->conv = str[pos];
 	else if (str[pos] == 'L' && (pos += 1) && (nb = 12))
 		flag->conv = str[pos];
@@ -84,7 +83,7 @@ int	find_hhllL(const char *str, t_flags *flag, char buff[2000])
 	return (nb);
 }
 
-int	find_first_flags(const char *str, t_flags *flag, char buff[2000])
+int	find_first_flags(const char *str, t_flags *flag)
 {
 	int pos;
 
@@ -103,8 +102,14 @@ int	find_first_flags(const char *str, t_flags *flag, char buff[2000])
 		if (str[pos] == '0' && ++pos)
 			flag->zero = 1;
 	}
+	if (str[pos] == '%')
+	{
+		flag->spos = pos + 1;
+		write(1, "%", 1);
+		return (0);
+	}
 	if (ft_isdigit(str[pos]))
 		flag->width = get_nbr(str, &pos);
 	flag->spos = pos;
-	return (find_hhllL(str, flag, buff));
+	return (find_hhllL(str, flag));
 }
