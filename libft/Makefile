@@ -6,7 +6,7 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/12 14:33:09 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/18 20:25:37 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ clean :
 
 ## fclean		: efface les binaires ainsi que l'executable
 fclean : clean
-	@echo "$(BRED)Deleting $(NAME)$(CLEAN)"
+	@echo "$(BRED)Deleting $(NAME)$(CLEAR)"
 	@rm -f $(NAME)
 
 ## re		: lance la regle "fclean", puis la regle "all"

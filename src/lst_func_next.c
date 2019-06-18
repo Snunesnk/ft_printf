@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 12:21:59 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/17 11:49:23 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/18 20:34:34 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int get_ull_int(t_flags *flag, va_list ap, char buff[2000])
 {
 	unsigned long long int nbr;
 
+	flag->plus = 0;
+	flag->space = 0;
 	nbr = va_arg(ap, unsigned long long int);
 	if (flag->conv == 'u' || flag->conv == 'D')
 		return (store_unb(flag, buff, nbr));
@@ -92,6 +94,8 @@ int	get_ul_int(t_flags *flag, va_list ap, char buff[2000])
 {
 	unsigned long int nbr;
 
+	flag->plus = 0;
+	flag->space = 0;
 	nbr = va_arg(ap, unsigned long int);
 	if (flag->conv == 'u' || flag->conv == 'D')
 		return (store_nb(flag, buff, nbr));

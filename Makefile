@@ -6,7 +6,7 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/15 17:34:03 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/18 20:26:09 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ SRC_NAME = 	ft_printf.c \
 			ft_strcat.c \
 			ft_strcpy.c \
 			reset_flags.c \
-			ft_nblen.c
+			ft_nblen.c \
+			deal_wfloat.c \
+			exept_double.c
 OBJ_PATH = obj
 I_PATH = include
 HEADERS = ft_printf.h libft.h
@@ -58,9 +60,9 @@ $(NAME) : $(OBJ)
 	@ranlib $@
 	@echo "$(GREEN)[DONE]$(CLEAR)"
 
-exec :
+exec : src/main.c $(NAME)
 	@echo "$(BYELLOW)Creating executable file$(CLEAR)"
-	@gcc src/main.c -o test -I include -L. -lftprintf
+	@gcc -g src/main.c -o exec -I include -L. -lftprintf
 
 ## objet		: verifie que les objets et le header soient a jour
 $(OBJ_PATH)/%.o : $(SRC_PATH)/%.c $(HEADER)

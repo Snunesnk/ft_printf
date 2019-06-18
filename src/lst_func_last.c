@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 17:41:14 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/15 14:05:55 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/18 20:35:00 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int get_uhh_int(t_flags *flag, va_list ap, char buff[2000])
 {
 	unsigned char nbr;
 
+	flag->plus = 0;
+	flag->space = 0;
 	nbr = va_arg(ap, int);
 	if (flag->conv == 'u')
 		return (store_unb(flag, buff, nbr));
@@ -32,6 +34,8 @@ int get_uh_int(t_flags *flag, va_list ap, char buff[2000])
 {
 	unsigned short int nbr;
 
+	flag->plus = 0;
+	flag->space = 0;
 	nbr = va_arg(ap, int);
 	if (flag->conv == 'u')
 		return (store_unb(flag, buff, nbr));
@@ -48,6 +52,8 @@ int get_uj_int(t_flags *flag, va_list ap, char buff[2000])
 {
 	uintmax_t nbr;
 
+	flag->plus = 0;
+	flag->space = 0;
 	nbr = va_arg(ap, uintmax_t);
 	if (flag->conv == 'u')
 		return (store_unb(flag, buff, nbr));
@@ -64,6 +70,8 @@ int	get_j_int(t_flags *flag, va_list ap, char buff[2000])
 {
 	intmax_t nbr;
 
+	flag->plus = 0;
+	flag->space = 0;
 	nbr = va_arg(ap, intmax_t);
 	if (flag->conv == 'd' || flag->conv == 'i' || flag->conv == 'D')
 		return (store_nb(flag, buff, nbr));

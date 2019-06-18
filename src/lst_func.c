@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 10:23:23 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/17 11:40:25 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/18 20:42:15 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	get_u_int(t_flags *flag, va_list ap, char buff[2000])
 {
 	unsigned int nbr;
 
+	flag->plus = 0;
+	flag->space = 0;
 	nbr = va_arg(ap, unsigned int);
 	if ((*flag).conv == 'u')
 		return (store_unb(flag, buff, nbr));
@@ -45,36 +47,45 @@ int	get_u_int(t_flags *flag, va_list ap, char buff[2000])
 }
 
 /*
-** mauvaise gestion du champs, et de la justification a gauche
-** arrondi a implementer sur la partie entiere
-** trouver pourquoi certain nombre ne passent pas bien
+** implementer la justification a gauche
+** trouver pourquoi un '-' fait plenter l'affichage
+** sinon ba faire la meme chose pour les long doubles
 */
+
 int get_double(t_flags *flag, va_list ap, char buff[2000])
 {
+	double nbr;
 	int len;
-	double nb;
-	intmax_t ret;
-	int pow;
+	int lim;
+	double mantisse;
+	int exp;
 
-	flag->preci = (flag->preci == -1) ? 6 : flag->preci;
-	pow = 0;
-	nb = va_arg(ap, double);
-	ret = nb;
-	len = ft_nblen(nb) + 1;
-	len = (flag->diez || flag->preci) ? len + 1 : len;
-	len += store_float_fspaces(flag, nb >= 0, len - 1, buff);
-	nb = (nb < 0) ? -nb : nb;
-	len += store_fnb(nb, flag, buff, ft_nblen(nb));
-	ret = nb;
-	nb = nb - ret;
-	ret = flag->preci;
-	while (ret-- )
-		nb *= 10;
-	nb = ((ret = nb * 10) % 10 >= 5) ? nb + 1 : nb;
-	(flag->diez == 1 || flag->preci > 0) ? (buff[flag->bpos++] = '.') : 0;
-	len += store_fnb(nb, flag, buff, flag->preci);
-	store_espaces(flag, len, buff);
-	return (len);
+	lim = 0;
+	flag->preci = (flag->preci < 0) ? 6 : flag->preci;
+	nbr = va_arg(ap, double);
+	if (!(exept(get_info(nbr, &mantisse, &exp), flag, buff, nbr >= 0)))
+	{
+		store_float_fspaces(flag, nbr >= 0, nbr, buff);
+		nbr = (nbr < 0) ? - nbr : nbr;
+		store_double(flag, mantisse, exp, buff);
+		len = 0;
+		while (buff[len] != '.')
+			len++;
+		flag->bpos = len;
+		while (flag->preci--)
+		{
+			buff[flag->bpos] = (lim == 1) ? '0' : buff[flag->bpos];
+			if (!buff[++flag->bpos])
+				lim = 1;
+		}
+		buff[flag->bpos] = '0';
+		buff[flag->bpos + 1] = '\0';
+		len = flag->bpos;
+		if (buff[len + 1] >= '5')
+			flag->bpos += ft_round(buff, len);
+		flag->bpos += 1;
+	}
+	return (1);
 }
 
 int get_hh_int(t_flags *flag, va_list ap, char buff[2000])

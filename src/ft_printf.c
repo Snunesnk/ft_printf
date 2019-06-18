@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/15 20:23:51 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/18 18:41:31 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,10 @@ int	ft_printf(const char *format, ...)
 		len += flag.bpos;
 		flag.bpos = 0;
 		if ((i = find_first_flags(format, &flag) - 1) >= 0)
+		{
+		//	flag.space = 0;
 			(*g_func[i])(&flag, ap, buff);
+		}
 		buff[flag.bpos] = '\0';
 		ft_putstr(buff);
 		len += flag.bpos;

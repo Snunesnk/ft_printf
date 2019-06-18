@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:30:10 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/17 11:53:04 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/18 20:42:17 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ int	find_hhllL(const char *str, t_flags *flag)
 		flag->conv = str[pos];
 	else
 		nb = find_douixXf(str, pos);
-	order_flags(flag);
 	flag->conv = str[pos];
+	order_flags(flag);
 	flag->spos = pos + 1;
 	nb = (str[pos] == 'd' || str[pos] == 'i' || str[pos] == 'D') ? nb - 1 : nb;
 	return (nb);
@@ -87,7 +87,12 @@ int	find_first_flags(const char *str, t_flags *flag)
 {
 	int pos;
 
-	pos = flag->spos--;
+	pos = flag->spos + 1;
+	if (str[pos] == '%' && (flag->spos += 2))
+	{
+		flag->bpos += (write(1, "%", 1));
+		return (0);
+	}
 	while (flag->spos != pos)
 	{
 		flag->spos = pos;
@@ -95,18 +100,12 @@ int	find_first_flags(const char *str, t_flags *flag)
 			flag->diez = 1;
 		if (str[pos] == '+' && ++pos)
 			flag->plus = 1;
-		if (str[pos] == ' '  && ++pos)
+		if (str[pos] == ' ' && ++pos)
 			flag->space = 1;
 		if (str[pos] == '-' && ++pos)
 			flag->minus = 1;
 		if (str[pos] == '0' && ++pos)
 			flag->zero = 1;
-	}
-	if (str[pos] == '%')
-	{
-		flag->spos = pos + 1;
-		write(1, "%", 1);
-		return (0);
 	}
 	if (ft_isdigit(str[pos]))
 		flag->width = get_nbr(str, &pos);
