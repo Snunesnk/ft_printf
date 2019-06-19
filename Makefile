@@ -6,7 +6,7 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/18 20:26:09 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/19 13:29:05 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,9 @@ CLEAR = \033[0m
 GREEN = \033[32m
 BYELLOW = \033[33;1m
 BRED = \033[31m
+
+TEST_SRCS = unit-tests/main.c \
+			unit-tests/char_test.c
 
 .PHONY : all, clean, fclean, re, help, norme
 
@@ -93,3 +96,7 @@ norme :
 ## help		: affiche les options disponibles et leurs utilitees
 help : Makefile
 	@sed -n 's/^##//p' $<
+
+test : all 
+	@$(CC) $(TEST_SRCS) -L. -lftprintf -I unit-tests/
+	@echo "$(BRED)Executable created$(CLEAR)"
