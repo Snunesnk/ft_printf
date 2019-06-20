@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   deal_wfloat.c                                      :+:      :+:    :+:   */
+/*   deal_wdouble.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/11 16:27:36 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/18 18:54:47 by snunes           ###   ########.fr       */
+/*   Created: 2019/06/20 13:51:29 by snunes            #+#    #+#             */
+/*   Updated: 2019/06/20 16:18:53 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,25 @@ int ft_round(char buff[2000], int len)
 	return (0);
 }
 
-void	ft_shiftstr(char buff[2000], int len)
+void	ft_shiftstr(char buff[2000], int start, int mode)
 {
 	int i;
-	int ret_prev;
+	int ret_mv;
 	int ret_curr;
-
-	i = len + 1;
-	ret_prev = buff[i];
-	buff[i] = '0';
-	while (buff[i++])
+	
+	i = start;
+	ret_mv = (mode == 1) ? buff[i] : buff[i + 1];
+	if (mode == 1)
+		buff[i] = '0';
+	while (buff[i])
 	{
-		ret_curr = buff[i];
-		buff[i] = ret_prev;
-		ret_prev = ret_curr;
+		if (mode == 1)
+			i++;
+		ret_curr = (mode == 1) ? buff[i] : buff[i + 2];
+		buff[i] = ret_mv;
+		ret_mv = ret_curr;
+		if (mode == 2)
+			i++;
 	}
 	buff[i] = '\0';
 }
@@ -73,7 +78,7 @@ int ft_multiply(t_flags *flag, char buff[2000], int min)
 				len--;
 			if (len == min)
 			{
-				ft_shiftstr(buff, len);
+				ft_shiftstr(buff, len + 1, 1);
 				buff[len + 1] = buff[len + 1] + 1;
 				return (1);
 			}
@@ -85,36 +90,41 @@ int ft_multiply(t_flags *flag, char buff[2000], int min)
 	return (0);
 }
 
-int	get_info(double nbr, double *mantisse, int *exp)
+int	get_info(long double nbr, long double *mantisse, int *exp)
 {
-	union u_d_bits doub;
+	union u_bits bin;
 	int i;
-	double two;
+	long double two;
+	int gap;
 
+	gap = 64;
 	nbr = (nbr < 0) ? -nbr : nbr;
-	doub.d = nbr;
-	*exp = ((doub.bits >> 52) & 0x7ffL) - 1023;
+	bin.nb = nbr;
+	*exp = ((bin.bits[9] & 0x7F) << 8) + (bin.bits[8] & 0xFF) - 16383;
 	two = 1;
-	i = 0;
-	while (i++ < 52)
-		two /= 2;
 	*mantisse = (nbr > 1) ? 1 : 0;
-	while (two < 1)
+	i = 7;
+	while (i >= 0)
 	{
-		*mantisse += ((doub.bits & 1) > 0) ? two : 0;
-		doub.bits = doub.bits >> 1;
-		two *= 2;
+		*mantisse += (((bin.bits[i] >> gap) & 1) > 0) ? two : 0;
+		two /= 2;
+		gap /= 2;
+		if (gap == 0)
+		{
+			gap = 128;
+			i--;
+		}
 	}
-	if (!*mantisse && *exp == -1023) // zero
+	if (!*mantisse && *exp == -16383) // zero
 		return (1);
-	else if (*exp == 1024 && !(*mantisse - (nbr > 1))) // infini
+	else if (*exp == 16384 && !(*mantisse - (nbr > 1))) // infini
 		return (2);
-	else if (*exp == 1024 && *mantisse) // NaN, not a number
+	else if (*exp == 16384 && *mantisse) // NaN, not a number
 		return (3);
 	return (0);
 }
 
-int	store_double(t_flags *flag, double mantisse, int exp, char buff[2000])
+int	store_double(t_flags *flag, long double mantisse, int exp, char buff[2000])
 {
 	int min;
 

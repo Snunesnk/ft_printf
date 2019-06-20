@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 10:23:23 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/18 20:42:15 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/20 14:00:42 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,37 +54,17 @@ int	get_u_int(t_flags *flag, va_list ap, char buff[2000])
 
 int get_double(t_flags *flag, va_list ap, char buff[2000])
 {
-	double nbr;
-	int len;
-	int lim;
-	double mantisse;
+	int i;
 	int exp;
+	double nbr;
 
-	lim = 0;
-	flag->preci = (flag->preci < 0) ? 6 : flag->preci;
 	nbr = va_arg(ap, double);
-	if (!(exept(get_info(nbr, &mantisse, &exp), flag, buff, nbr >= 0)))
-	{
-		store_float_fspaces(flag, nbr >= 0, nbr, buff);
-		nbr = (nbr < 0) ? - nbr : nbr;
-		store_double(flag, mantisse, exp, buff);
-		len = 0;
-		while (buff[len] != '.')
-			len++;
-		flag->bpos = len;
-		while (flag->preci--)
-		{
-			buff[flag->bpos] = (lim == 1) ? '0' : buff[flag->bpos];
-			if (!buff[++flag->bpos])
-				lim = 1;
-		}
-		buff[flag->bpos] = '0';
-		buff[flag->bpos + 1] = '\0';
-		len = flag->bpos;
-		if (buff[len + 1] >= '5')
-			flag->bpos += ft_round(buff, len);
-		flag->bpos += 1;
-	}
+	if (check_expt)
+		return (1);
+	store_float_fspaces(flag, nbr >= 0, nbr, buff);
+	exp = get_mantisse(nbr, flag, buff);
+	get_nbr(exp, buff, flag);
+	store_espaces(flag, len, buff);
 	return (1);
 }
 

@@ -1,0 +1,24 @@
+
+!!!!To do : !!!!
+	
+ -	Se passer du grand buffer
+ -	faire prendre l'adresse de ap a mes fonctions
+ -	realiser la gestions des doubles / long doubles
+ -	mettre a la norme
+ -	realiser tout pleins de test
+ -	demander un plantage de mon printf
+
+
+-> Se passer du grand buffer : 
+
+ -	Pour les doubles / long doubles : Deux buffer de 310 (Max de nb pouvant etre stocke) + un buffer qui prend les fspaces et espaces
+ -	Pour les char un buffer qui prend les espaces
+ -	Pour les nb : un buffer pour la precision, un pour les espaces et un pour le nombre
+ -	Pour les chaines : un qui prend la chaine suivant ou non la precision;
+
+
+Ce serais bien :
+
+ -	reproduire le meme comportement que printf sur les unsigned negatifs	
+ -	de repartir les fichiers src dans differents sous dossiers pour la clarte
+ -	d'avoir des fonctions qui renvoient le nombre de char ecrits/stockes

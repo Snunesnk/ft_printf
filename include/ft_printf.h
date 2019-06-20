@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 13:50:17 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/18 16:39:17 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/20 20:04:17 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 #include <stdio.h>
 
 
-union u_d_bits
+union u_bits
 {
-	double d;
-	uint64_t bits;
+	long double nb;
+	char bits[10];
 };
 
 typedef struct	s_flags
@@ -45,12 +45,15 @@ typedef struct	s_flags
 	int nb;
 }				t_flags;
 
-int	get_info(double nbr, double *mantisse, int *exp);
+int ft_add(char buff[2000], char two[65]);
+int	ft_multiply(char buff[2000], int start, int end);
+int	ft_divide(char buff[2000], int min);
+void ft_shiftstr(char buff[2000], int start, int mode);
+int	get_info(long double nbr, long double *mantisse, int *exp);
 int exept(int nb_exept, t_flags *flag, char buff[2000], int sign);
 int handle_zero(t_flags *flag, char buff[2000], int sign);
-void	ft_shiftstr(char buff[2000], int len);
 int ft_round(char buff[2000], int len);
-int store_double(t_flags *flag, double mantisse, int exp, char buff[2000]);
+int store_double(t_flags *flag, long double mantisse, int exp, char buff[2000]);
 int	store_nb(t_flags *flag, char buff[2000], intmax_t nb);
 int store_fnb(long double nbr, t_flags *flag, char buff[2000], int len);
 int	get_j_int(t_flags *flag, va_list ap, char buff[2000]);
