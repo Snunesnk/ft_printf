@@ -6,7 +6,7 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/19 13:29:05 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/21 16:06:02 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ CC = gcc
 NAME = libftprintf.a
 SRC_PATH = src
 SRC_NAME = 	ft_printf.c \
-			lst_func.c \
-			lst_func_next.c \
-			lst_func_last.c \
+			lst_func_1.c \
+			lst_func_2.c \
+			lst_func_3.c \
 			print_arg.c \
 			print_spaces.c \
 			store_multi.c \
@@ -32,8 +32,10 @@ SRC_NAME = 	ft_printf.c \
 			ft_strcpy.c \
 			reset_flags.c \
 			ft_nblen.c \
-			deal_wfloat.c \
-			exept_double.c
+			deal_wdouble.c \
+			exept_double.c \
+			BigInt.c \
+			lst_func_4.c
 OBJ_PATH = obj
 I_PATH = include
 HEADERS = ft_printf.h libft.h

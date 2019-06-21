@@ -2,6 +2,7 @@
 !!!!To do : !!!!
 	
  -	Se passer du grand buffer
+ -	Rajouter une fonction pour gerer le %%
  -	faire prendre l'adresse de ap a mes fonctions
  -	realiser la gestions des doubles / long doubles
  -	mettre a la norme
@@ -12,9 +13,9 @@
 -> Se passer du grand buffer : 
 
  -	Pour les doubles / long doubles : Deux buffer de 310 (Max de nb pouvant etre stocke) + un buffer qui prend les fspaces et espaces
- -	Pour les char un buffer qui prend les espaces
- -	Pour les nb : un buffer pour la precision, un pour les espaces et un pour le nombre
- -	Pour les chaines : un qui prend la chaine suivant ou non la precision;
+ -	Pour les nb : un buffer pour les attributs, un pour les espaces et un pour le nombre; 	 avec une fonction permettant de remplir le buffer espace et une pour le buffer 
+ 	attributs. (attribut => espace devant, signe, precision)
+ -	changer la fonction espace pour qu'elle puisse fill avec des 0 aussi (avec un mode ;)
 
 
 Ce serais bien :
