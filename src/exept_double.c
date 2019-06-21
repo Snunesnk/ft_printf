@@ -6,14 +6,18 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 15:53:28 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/18 17:31:45 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/21 12:10:42 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	handle_zero(t_flags *flag, char buff[2000], int sign)
+int	handle_zero(t_flags *flag, char buff[311], int sign)
 {
+	(void)buff;
+	(void)flag;
+	(void)sign;
+	return (0);/*
 	store_float_fspaces(flag, sign, 1.0, buff);
 	buff[flag->bpos++] = '0';
 	if (flag->diez || flag->preci > 0)
@@ -23,10 +27,15 @@ int	handle_zero(t_flags *flag, char buff[2000], int sign)
 			buff[flag->bpos++] = '0';
 	}
 	return (1);
-}
+*/}
 
-int	exept(int nb_exept, t_flags *flag, char buff[2000], int sign)
+int	exept(int nb_exept, t_flags *flag, char buff[311], int sign)
 {
+	(void)buff;
+	(void)nb_exept;
+	(void)flag;
+	(void)sign;
+	return (0);/*
 	if (nb_exept == 0)
 		return (0);
 	if (nb_exept == 1)
@@ -50,4 +59,4 @@ int	exept(int nb_exept, t_flags *flag, char buff[2000], int sign)
 	while (flag->minus && flag->width-- > 3)
 		buff[flag->bpos++] = ' ';
 	return (1);
-}
+*/}

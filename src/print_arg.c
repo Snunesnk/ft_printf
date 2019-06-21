@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:30:10 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/18 20:42:17 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/21 12:47:35 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	find_first_flags(const char *str, t_flags *flag)
 {
 	int pos;
 
+	if (!str[flag->spos])
+		return (0);
 	pos = flag->spos + 1;
 	if (str[pos] == '%' && (flag->spos += 2))
 	{

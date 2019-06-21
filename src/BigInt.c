@@ -6,19 +6,19 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:03:03 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/20 20:12:36 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/21 13:52:20 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_shiftstr(char buff[65], int start, int mode)
+void	ft_shiftstr(char buff[65], int mode)
 {
 	int i;
 	int ret_mv;
 	int ret_curr;
 
-	i = start;
+	i = 0;
 	ret_mv = (mode == 1) ? buff[i] : buff[i + 1];
 	if (mode == 1)
 		buff[i] = '0';
@@ -32,16 +32,17 @@ void	ft_shiftstr(char buff[65], int start, int mode)
 		if (mode == 2)
 			i++;
 	}
-	buff[i] = '\0';
+	buff[i] = 0;
 }
 
-int ft_multiply(char buff[65], int start, int end)
+int ft_multiply(char buff[65])
 {
 	int len;
 	int unit;
 	
-	len = end;
-	while (len >= start)
+	len = 0;
+	while(buff[++len]);
+	while (len-- >= 0)
 	{
 		if (buff[len] == '.')
 			len--;
@@ -52,21 +53,20 @@ int ft_multiply(char buff[65], int start, int end)
 			len--;
 			if (buff[len] == '.')
 				len--;
-			if (len < start)
+			if (len < 0)
 			{
-				ft_shiftstr(buff, start, 1);
-				buff[start] = buff[start] + 1;
+				ft_shiftstr(buff, 1);
+				buff[0] = buff[0] + 1;
 				return (1);
 			}
 			unit = (buff[len] - 48) * 2 + 1;
 			buff[len] = unit % 10 + 48;
 		}
-		len--;
 	}
 	return (0);
 }
 
-int ft_divide(char buff[65], int start)
+int ft_divide(char buff[65])
 {
 	int nb;
 	int len;
@@ -75,7 +75,7 @@ int ft_divide(char buff[65], int start)
 
 	dot = 0;
 	while (buff[dot] && buff[++dot] != '.');
-	len = start - 1;
+	len = -1;
 	ret = 0;
 	while (buff[++len])
 	{
@@ -91,8 +91,8 @@ int ft_divide(char buff[65], int start)
 			buff[len++] = '.';
 		buff[len++] = '5';
 	}
-	while (buff[start] == '0' && buff[start + 1] != '.')
-		ft_shiftstr(buff, start, 2);
+	while (buff[0] == '0' && buff[1] != '.')
+		ft_shiftstr(buff, 2);
 	buff[len] = '\0';
 	return (0);
 }
@@ -112,12 +112,12 @@ int	ft_align(char buff[65], char two[65])
 		b_len++;
 	while (t_len > b_len)
 	{
-		ft_shiftstr(buff, 0, 1);
+		ft_shiftstr(buff, 1);
 		t_len--;
 	}
 	while(b_len > t_len)
 	{
-		ft_shiftstr(two, 0, 1);
+		ft_shiftstr(two, 1);
 		b_len--;
 	}
 	while (buff[len] || two[len])
@@ -128,7 +128,6 @@ int	ft_align(char buff[65], char two[65])
 int ft_add(char buff[65], char two[65])
 {
 	int ret;
-	int unit;
 	int nb;
 	int len;
 
@@ -152,7 +151,7 @@ int ft_add(char buff[65], char two[65])
 	}
 	if (ret != 0)
 	{
-		ft_shiftstr(buff, 0, 1);
+		ft_shiftstr(buff, 1);
 		buff[0] = ret + 48;
 	}
 	return (0);

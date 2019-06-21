@@ -6,14 +6,29 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 05:51:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/20 14:00:47 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/21 12:33:58 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	put_attribute(t_flags *flag, char buff[2000], int mode, int gap)
+char *make_espaces(int len)
 {
+	char *str;
+
+	if (!(str = (char *)ft_memalloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (len--)
+		str[len] = ' ';
+	return (str);
+}
+
+int	put_attribute(t_flags *flag, int mode, int gap)
+{
+	(void)flag;
+	(void)mode;
+	(void)gap;
+	return (0);/*
 	int len;
 
 	len = 0;
@@ -36,10 +51,14 @@ int	put_attribute(t_flags *flag, char buff[2000], int mode, int gap)
 	if (flag->diez == 1 && flag->conv == 'X' && flag->nb)
 		(mode == 1) ? ++len : (buff[flag->bpos++] = 'X');	
 	return (len);
-}
+*/}
 
-int	store_fspaces(t_flags *flag, int sign, int len, char buff[2000])
+int	store_fspaces(t_flags *flag, int sign, int len)
 {
+	(void)flag;
+	(void)sign;
+	(void)len;
+	return (0);/*
 	int gap;
 
 	gap = (flag->preci > len) ? flag->preci - len : 0;
@@ -60,17 +79,20 @@ int	store_fspaces(t_flags *flag, int sign, int len, char buff[2000])
 	while (gap > 0 && gap-- && ++len)
 		buff[flag->bpos++] = '0';
 	return (len);
-}
+*/}
 
-int	store_espaces(t_flags *flag, int len, char buff[2000])
+int	store_espaces(t_flags *flag, int len)
 {
+	(void)flag;
+	(void)len;
+	return (0);/*
 	while (flag->minus && flag->width > len)
 	{
 		buff[flag->bpos++] = ' ';
 		len++;
 	}
 	return (len);
-}
+*/}
 
 int	order_flags(t_flags *flag)
 {
@@ -83,8 +105,12 @@ int	order_flags(t_flags *flag)
 	return (1);
 }
 
-int	store_float_fspaces(t_flags *flag, int sign, long double nbr, char bf[2000])
+int	store_float_fspaces(t_flags *flag, int sign, long double nbr)
 {
+	(void)flag;
+	(void)sign;
+	(void)nbr;
+	return (0);/*
 	int len;
 
 	len = 0;
@@ -108,10 +134,14 @@ int	store_float_fspaces(t_flags *flag, int sign, long double nbr, char bf[2000])
 	if (!flag->zero && flag->plus)
 		bf[flag->bpos++] = (sign == 1) ? '+' : '-';
 	return (len);
-}
+*/}
 
-int	store_fnb(long double nbr, t_flags *flag, char buff[2000], int len)
+int	store_fnb(long double nbr, t_flags *flag, int len)
 {
+	(void)nbr;
+	(void)flag;
+	(void)len;
+	return (0);/*
 	int length;
 	uintmax_t ret;
 
@@ -126,4 +156,4 @@ int	store_fnb(long double nbr, t_flags *flag, char buff[2000], int len)
 	}
 	flag->bpos += length;
  	return (length);
-}
+*/}

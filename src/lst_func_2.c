@@ -6,14 +6,17 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 12:21:59 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/18 20:34:34 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/21 11:59:46 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	get_l_int(t_flags *flag, va_list ap, char buff[2000])
+int	get_l_int(t_flags *flag, va_list ap)
 {
+	(void)flag;
+	(void)ap;
+	return (0);/*
 	long int nbr;
 
 	nbr = va_arg(ap, long int);
@@ -26,10 +29,13 @@ int	get_l_int(t_flags *flag, va_list ap, char buff[2000])
 	if (flag->conv == 'c')
 		return (store_char(flag, buff, nbr));
 	return (-1);
-}
+*/}
 
-int get_ll_int(t_flags *flag, va_list ap, char buff[2000])
+int get_ll_int(t_flags *flag, va_list ap)
 {
+	(void)flag;
+	(void)ap;
+	return (0);/*
 	long long int nbr;
 
 	nbr = va_arg(ap, long long int);
@@ -42,10 +48,13 @@ int get_ll_int(t_flags *flag, va_list ap, char buff[2000])
 	if (flag->conv == 'c')
 			return (store_char(flag, buff, nbr));
 	return (-1);
-}
+*/}
 
-int get_L_double(t_flags *flag, va_list ap, char buff[2000])
+int get_L_double(t_flags *flag, va_list ap)
 {
+	(void)flag;
+	(void)ap;
+	return (0);/*
 	int len;
 	double nb;
 	intmax_t ret;
@@ -70,10 +79,13 @@ int get_L_double(t_flags *flag, va_list ap, char buff[2000])
 	len += store_fnb(nb, flag, buff, flag->preci);
 	store_espaces(flag, len, buff);
 	return (len);
-}
+*/}
 
-int get_ull_int(t_flags *flag, va_list ap, char buff[2000])
+int get_ull_int(t_flags *flag, va_list ap)
 {
+	(void)flag;
+	(void)ap;
+	return (0);/*
 	unsigned long long int nbr;
 
 	flag->plus = 0;
@@ -88,10 +100,13 @@ int get_ull_int(t_flags *flag, va_list ap, char buff[2000])
 	if (flag->conv == 'c')
 			return (store_char(flag, buff, nbr));
 	return (-1);
-}
+*/}
 
-int	get_ul_int(t_flags *flag, va_list ap, char buff[2000])
-{
+int	get_ul_int(t_flags *flag, va_list ap)
+{	
+	(void)flag;
+	(void)ap;
+	return (0);/*
 	unsigned long int nbr;
 
 	flag->plus = 0;
@@ -106,4 +121,4 @@ int	get_ul_int(t_flags *flag, va_list ap, char buff[2000])
 	if (flag->conv == 'c')
 			return (store_char(flag, buff, nbr));
 	return (-1);
-}
+*/}

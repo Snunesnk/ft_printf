@@ -6,29 +6,28 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 14:41:56 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/18 20:42:19 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/21 16:44:13 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	store_nb(t_flags *flag, char buff[2000], intmax_t nb)
+int	store_nb(t_flags *flag, intmax_t nb)
 {
-	intmax_t ret;
-	int len;
-	long long pow;
+	char	*nb;
+	char	*espaces;
+	int		len;
+	int		e_len;
 
-	pow = 1;
-	len = 1;
-	if (nb == 0 && flag->preci == 0)
-	{
-		store_fspaces(flag, nb >= 0, 1, buff);
-		return (0);
-	}
-	ret = (nb >= 0) ? nb : -1 * nb;
-	while (ret / 10 && ++len)
-		ret /= 10;
-	ret = len;
+	e_len = 0;
+	len = ft_nblen(nb);
+	while (flag->preci > len)
+		len++;
+	while (flag->width > len + e_len)
+		e_len++;
+	if (!(espaces = make_espaces(e_len))
+			|| !(nb = (char *)ft_memalloc(sizeof(char) * (len + 1))))
+		return (-1);
 	len = store_fspaces(flag, nb >= 0, len, buff);
 	nb = (nb > 0) ? nb : -1 * nb;
 	while (ret > 1 && ret--)
@@ -41,8 +40,11 @@ int	store_nb(t_flags *flag, char buff[2000], intmax_t nb)
 	return (store_espaces(flag, len, buff));
 }
 
-int	store_unb(t_flags *flag, char buff[2000], uintmax_t nb)
+int	store_unb(t_flags *flag, uintmax_t nb)
 {
+	(void)flag;
+	(void)nb;
+	return (0);/*
 	uintmax_t ret;
 	int len;
 	long long pow;
@@ -68,10 +70,13 @@ int	store_unb(t_flags *flag, char buff[2000], uintmax_t nb)
 		pow /= 10;
 	}
 	return (store_espaces(flag, len, buff));
-}
+*/}
 
-int store_oct(t_flags *flag, char buff[2000], uintmax_t nb)
+int store_oct(t_flags *flag, uintmax_t nb)
 {
+	(void)flag;
+	(void)nb;
+	return (0);/*
 	uintmax_t ret;
 	int len;
 	long long pow;
@@ -100,10 +105,13 @@ int store_oct(t_flags *flag, char buff[2000], uintmax_t nb)
 	}
 	flag->bpos += ret;
 	return (store_espaces(flag, len, buff));
-}
+*/}
 
-int	store_hex(t_flags *flag, char bf[2000], uintmax_t nb)
+int	store_hex(t_flags *flag, uintmax_t nb)
 {
+	(void)flag;
+	(void)nb;
+	return (0);/*
 	uintmax_t ret;
 	int len;
 	long long pw;
@@ -134,14 +142,17 @@ int	store_hex(t_flags *flag, char bf[2000], uintmax_t nb)
 	}
 	flag->bpos += ret;
 	return (store_espaces(flag, len, bf));
-}
+*/}
 
-int store_char(t_flags *flag, char buff[2000], char c)
+int store_char(t_flags *flag, char c)
 {
+	(void)flag;
+	(void)c;
+	return (0);/*
 	while (!flag->minus && flag->width-- > 1)
 		buff[flag->bpos++] = ' ';
 	buff[flag->bpos++] = (c == 0) ? -1 : c;
 	while (flag->minus && flag->width-- > 1)
 		buff[flag->bpos++] = ' ';
 	return (1);
-}
+*/}
