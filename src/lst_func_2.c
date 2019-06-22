@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 12:21:59 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/21 11:59:46 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/22 19:17:07 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,35 @@
 
 int	get_l_int(t_flags *flag, va_list ap)
 {
-	(void)flag;
-	(void)ap;
-	return (0);/*
 	long int nbr;
 
 	nbr = va_arg(ap, long int);
 	if (flag->conv == 'd' || flag->conv == 'i' || flag->conv == 'D')
-		return (store_nb(flag, buff, nbr));
-	if (flag->conv == 'o')
-		return (store_oct(flag, buff, nbr));
+		return (print_nb(flag, nbr, 10));
+	if (flag->conv == 'U')
+		return (print_unb(flag, nbr, 10));
+	if (flag->conv == 'o' || flag->conv == 'O')
+		return (print_unb(flag, nbr, 8));
 	if (flag->conv == 'x' || flag->conv == 'X')
-		return (store_hex(flag, buff, nbr));
-	if (flag->conv == 'c')
-		return (store_char(flag, buff, nbr));
+		return (print_unb(flag, nbr, 16));
 	return (-1);
-*/}
+}
 
 int get_ll_int(t_flags *flag, va_list ap)
 {
-	(void)flag;
-	(void)ap;
-	return (0);/*
 	long long int nbr;
 
 	nbr = va_arg(ap, long long int);
 	if (flag->conv == 'd' || flag->conv == 'i' || flag->conv == 'D')
-		return (store_nb(flag, buff, nbr));
-	if (flag->conv == 'o')
-		return (store_oct(flag, buff, nbr));
+		return (print_nb(flag, nbr, 10));
+	if (flag->conv == 'U')
+		return (print_unb(flag, nbr, 10));
+	if (flag->conv == 'o' || flag->conv == 'O')
+		return (print_unb(flag, nbr, 8));
 	if (flag->conv == 'x' || flag->conv == 'X')
-		return (store_hex(flag, buff,nbr));
-	if (flag->conv == 'c')
-			return (store_char(flag, buff, nbr));
+		return (print_unb(flag, nbr, 16));
 	return (-1);
-*/}
+}
 
 int get_L_double(t_flags *flag, va_list ap)
 {
@@ -83,42 +77,34 @@ int get_L_double(t_flags *flag, va_list ap)
 
 int get_ull_int(t_flags *flag, va_list ap)
 {
-	(void)flag;
-	(void)ap;
-	return (0);/*
 	unsigned long long int nbr;
 
 	flag->plus = 0;
 	flag->space = 0;
 	nbr = va_arg(ap, unsigned long long int);
 	if (flag->conv == 'u' || flag->conv == 'D')
-		return (store_unb(flag, buff, nbr));
-	if (flag->conv == 'o')
-		return (store_oct(flag, buff, nbr));
+		return (print_unb(flag, nbr, 10));
+	if (flag->conv == 'U')
+		return (print_unb(flag, nbr, 10));
+	if (flag->conv == 'o' || flag->conv == 'O')
+		return (print_unb(flag, nbr, 8));
 	if (flag->conv == 'x' || flag->conv == 'X')
-		return (store_hex(flag, buff, nbr));
-	if (flag->conv == 'c')
-			return (store_char(flag, buff, nbr));
+		return (print_unb(flag, nbr, 16));
 	return (-1);
-*/}
+}
 
 int	get_ul_int(t_flags *flag, va_list ap)
 {	
-	(void)flag;
-	(void)ap;
-	return (0);/*
 	unsigned long int nbr;
 
 	flag->plus = 0;
 	flag->space = 0;
 	nbr = va_arg(ap, unsigned long int);
-	if (flag->conv == 'u' || flag->conv == 'D')
-		return (store_nb(flag, buff, nbr));
-	if (flag->conv == 'o')
-		return (store_oct(flag, buff, nbr));
+	if (flag->conv == 'u' || flag->conv == 'D' || flag->conv == 'U')
+		return (print_unb(flag, nbr, 10));
+	if (flag->conv == 'o' || flag->conv == 'O')
+		return (print_unb(flag, nbr, 8));
 	if (flag->conv == 'x' || flag->conv == 'X')
-		return (store_hex(flag, buff, nbr));
-	if (flag->conv == 'c')
-			return (store_char(flag, buff, nbr));
+		return (print_unb(flag, nbr, 16));
 	return (-1);
-*/}
+}

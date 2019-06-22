@@ -6,7 +6,7 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/21 16:06:02 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/22 18:37:26 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,8 @@ SRC_NAME = 	ft_printf.c \
 			lst_func_1.c \
 			lst_func_2.c \
 			lst_func_3.c \
-			print_arg.c \
-			print_spaces.c \
-			store_multi.c \
+			get_arg.c \
+			print_multi.c \
 			ft_atoi.c \
 			ft_isdigit.c \
 			ft_putstr.c \
@@ -35,7 +34,8 @@ SRC_NAME = 	ft_printf.c \
 			deal_wdouble.c \
 			exept_double.c \
 			BigInt.c \
-			lst_func_4.c
+			print_csp.c \
+			handle_flags.c
 OBJ_PATH = obj
 I_PATH = include
 HEADERS = ft_printf.h libft.h

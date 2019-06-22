@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:30:10 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/21 12:47:35 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/22 19:01:52 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 
 int get_nbr(const char *str, int *pos)
 {
-	int position;
-	char *result;
+	int result;
 
-	position = 0;
-	while (ft_isdigit(str[position + *pos]))
-		position++;
-	if ((result = (char *)ft_memalloc(sizeof(char) * (position + 1))) == NULL)
-		return (-1);
-	position = 0;
+	result = 0;
 	while (ft_isdigit(str[*pos]))
-		result[position++] = str[(*pos)++];
-	position = ft_atoi(result);
-	return (position);	
+	{
+		result *= 10;
+		result += str[*pos] - 48;
+		(*pos)++;
+	}
+	return (result);	
 }
 
 int	find_douixXf(const char *str, int pos)
@@ -47,7 +44,9 @@ int	find_douixXf(const char *str, int pos)
 		nb = 15;
 	else if (str[pos] == 'f')
 		nb = 13;
-	else if (str[pos] == 'D')
+	else if (str[pos] == '%')
+		nb = 18;
+	else if (str[pos] == 'D' || str[pos] == 'U' || str[pos] == 'O')
 		nb = 9;
 	return (nb);
 }
@@ -57,9 +56,6 @@ int	find_hhllL(const char *str, t_flags *flag)
 	int nb;
 	int pos;
 
-	flag->preci = -1;
-	if (str[flag->spos] == '.' && ++flag->spos)
-		 flag->preci = get_nbr(str, &flag->spos);
 	pos = flag->spos;
 	if (str[pos] == 'h' && str[pos + 1] == 'h' && (pos += 2) && (nb = 5))
 		flag->conv = str[pos];
@@ -90,11 +86,6 @@ int	find_first_flags(const char *str, t_flags *flag)
 	if (!str[flag->spos])
 		return (0);
 	pos = flag->spos + 1;
-	if (str[pos] == '%' && (flag->spos += 2))
-	{
-		flag->bpos += (write(1, "%", 1));
-		return (0);
-	}
 	while (flag->spos != pos)
 	{
 		flag->spos = pos;
@@ -111,6 +102,8 @@ int	find_first_flags(const char *str, t_flags *flag)
 	}
 	if (ft_isdigit(str[pos]))
 		flag->width = get_nbr(str, &pos);
+	if (str[pos] == '.' && ++pos)
+		flag->preci = get_nbr(str, &pos);
 	flag->spos = pos;
 	return (find_hhllL(str, flag));
 }
