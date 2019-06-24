@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 10:23:23 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/22 20:09:54 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/24 21:16:37 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,32 +42,31 @@ int	get_u_int(t_flags *flag, va_list ap)
 	return (-1);
 }
 
-/*
-** implementer la justification a gauche
-** trouver pourquoi un '-' fait plenter l'affichage
-** sinon ba faire la meme chose pour les long doubles
-*/
-
 int get_double(t_flags *flag, va_list ap)
 {
 	char	*bits;
 	double	nbr;
-	char	nb;
-	char	mant[55];
+	char	mant[60];
 	char	*espaces;
 	char 	att[5];
 	int 	len;
 
+	len = 0;
 	flag->preci = (flag->preci == -1) ? 6 : flag->preci;
-	ft_bzero(mant, 55);
+	ft_bzero(mant, 60);
+	mant[0] = '1';
 	nbr = va_arg(ap, double);
-	bits = ((char *)nbr);
-	create_double(bits, mant);
+	bits = ((char *)&nbr);
+	if ((len = create_doub(bits, mant)) < 0)
+		return (handle_exept(flag, len, nbr >= 0));
 	len = fill_att(flag, nbr, att);
-	len = flag->width - (ft_strlen(mant) + len);
-	if (!(espaces = make_espaces(flag, len))
+	while (mant[len] && mant[len] != '.')
+		len++;
+	len = flag->width - (flag->preci + len + 1);
+	if (!(espaces = make_espaces(flag, len)))
 		return (-1);
 	len = print_double(flag, mant, espaces, att);
+	free(espaces);
 	return (len);
 }
 

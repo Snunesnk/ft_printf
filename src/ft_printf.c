@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/22 19:02:44 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/24 14:39:11 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,10 @@ int	ft_printf(const char *format, ...)
 	{
 		len += w_len;
 		if ((i = find_first_flags(format, &flag) - 1) >= 0 && i < 17)
+		{
 			len += (*func[i])(&flag, ap);
-		if (i == 17)
+		}
+		else if (i == 17)
 			len += print_percent(&flag);
 	}
 	va_end(ap);

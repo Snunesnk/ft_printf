@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 13:50:17 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/22 19:33:14 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/24 21:15:15 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,19 @@ typedef struct	s_flags
 	int nb;
 }				t_flags;
 
-int fill_att(t_flags *flag, uintmax_t nbr, char att[5]);
+int handle_exept(t_flags *flag, int exept, int sign);
+int print_double(t_flags *flag, char *mant, char *espaces, char *att);
+int	create_doub(char *bits, char *mant);
+int fill_att(t_flags *flag, uintmax_t nbr, char *att);
 char *fill_nb_base(t_flags *flag, uintmax_t nbr, int base);
 char *make_espaces(t_flags *flag, int len);
-int ft_add(char mantissa[311], char two[311]);
-int	ft_multiply(char buff[311]);
-int	ft_divide(char buff[311]);
-void ft_shiftstr(char buff[311], int mode);
+int ft_add(char *mantissa, char *two);
+int	ft_multiply(char *buff);
+int	ft_divide(char *buff);
+void ft_shiftstr(char *buff, int mode);
 int	get_info(long double nbr, long double *mantisse, int *exp);
-int exept(int nb_exept, t_flags *flag, char buff[311], int sign);
-int handle_zero(t_flags *flag, char buff[311], int sign);
-int ft_round(char buff[311]);
+int is_exept(char *mant, int exp);
+int	ft_round(char *mant, char *precision);
 int store_double(t_flags *flag, long double mantisse, int exp, char buff[311]);
 int	print_nb(t_flags *flag, intmax_t nb, int base);
 int store_fnb(long double nbr, t_flags *flag, int len);

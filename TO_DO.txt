@@ -2,16 +2,12 @@
 
 !!!!To do : !!!!
 	
- -	realiser la gestions des doubles / long doubles
+ -	gere le flag space sur les doubles et peut etre tester sur le reste
+ -	realiser la gestions des long doubles
  -	faire prendre l'adresse de ap a mes fonctions
  -	mettre a la norme
  -	realiser tout pleins de test
  -	demander un plantage de mon printf
-
-
--> Se passer du grand buffer : 
-
- -	Pour les doubles / long doubles : Deux buffer de 310 (Max de nb pouvant etre stocke) + un buffer qui prend les fspaces et espaces
 
 
 Ce serais bien :

@@ -6,38 +6,11 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 15:01:50 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/22 19:52:29 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/24 12:31:21 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-int	print_double(t_flags *flag, char mant[55], char *esp, char att[5])
-{
-	int len;
-	int i_part;
-
-	len = 0;
-	i_part;
-	while (mant[i_part] && mant[i_part] != '.')
-		i_part++;
-	if (flag->zero)
-		len += write(1, att, ft_strlen(att));
-	if (!flag->minus)
-		len += write(1, esp, ft_strlen(esp));
-	if (!flag->zero)
-		len += write(1, att, ft_strlen(att));
-	len += write(1, num, i_part);
-	if (mant[len] == '.')
-	{
-		if (flag->preci == 0)
-			len += write(1, mant, len + flag->diez);
-		len += write(1, mant, len + flag->preci);
-	}
-	if (flag->minus)
-		len += write(1, esp, ft_strlen(esp));
-	return (len);
-}
 
 int	print_all(t_flags *flag, char *esp, char *num, char att[5])
 {

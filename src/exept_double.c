@@ -6,57 +6,83 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 15:53:28 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/21 12:10:42 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/24 21:15:10 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	handle_zero(t_flags *flag, char buff[311], int sign)
+int handle_zero(t_flags *flag, int sign)
 {
-	(void)buff;
-	(void)flag;
-	(void)sign;
-	return (0);/*
-	store_float_fspaces(flag, sign, 1.0, buff);
-	buff[flag->bpos++] = '0';
-	if (flag->diez || flag->preci > 0)
-	{
-		buff[flag->bpos++] = '.';
-		while (flag->preci--)
-			buff[flag->bpos++] = '0';
-	}
-	return (1);
-*/}
+	int len;
+	int ret;
 
-int	exept(int nb_exept, t_flags *flag, char buff[311], int sign)
+	flag->diez = (flag->preci > 0) ? 1 : flag->diez;
+	len = 0;
+	if (!flag->minus)
+	{
+		while (flag->width-- > flag->preci + 1 + flag->diez + flag->plus)
+			len += write(1, " ", 1);
+	}
+	if (flag->plus)
+		len += (sign == 0) ? write(1, "-", 1) : write(1, "+", 1);
+	len += write(1, "0", 1);
+	if (flag->diez)
+		len += write(1, ".", 1);
+	ret = flag->preci;
+	while (ret--)
+		len += write(1, "0", 1);
+	if (flag->minus)
+	{
+		while (flag->width-- > flag->preci + 1 + flag->diez + flag->plus)
+			len += write(1, " ", 1);
+	}
+	return (len);
+}
+
+int	handle_exept(t_flags *flag, int nb_exept, int sign)
 {
-	(void)buff;
-	(void)nb_exept;
-	(void)flag;
-	(void)sign;
-	return (0);/*
-	if (nb_exept == 0)
-		return (0);
-	if (nb_exept == 1)
-		return (handle_zero(flag, buff, sign));
-	while (!flag->minus && flag->width-- > 3)
-		buff[flag->bpos++] = ' ';
-	if (nb_exept == 2)
+	int len;
+
+	flag->plus = (sign == 0 && nb_exept != -3) ? 1 : flag->plus;
+	len = 0;
+	if (nb_exept == -1)
+		return (handle_zero(flag, sign));
+	if (!flag->minus)
 	{
-		if (sign == 0 || flag->plus == 1)
-			buff[flag->bpos++] = (sign == 0) ? '-' : '+';
-		buff[flag->bpos++] = '\0';
-		ft_strcat(buff, "inf");
-		flag->bpos += 2;	
+		while (flag->width-- > 3 + flag->plus)
+			len += write(1, " ", 1);
 	}
-	else if (nb_exept == 3)
+	if (flag->plus && nb_exept != -3)
+		len += (sign == 0) ? write(1, "-", 1) : write(1, "+", 1);
+	len += (nb_exept == -2) ? write(1, "inf", 3) : write(1, "nan", 3);
+	if (flag->minus)
 	{
-		buff[flag->bpos++] = '\0';
-		ft_strcat(buff, "nan");
-		flag->bpos += 2;
+		while (flag->width-- > 3 + flag->plus)
+			len += write(1, " ", 1);
 	}
-	while (flag->minus && flag->width-- > 3)
-		buff[flag->bpos++] = ' ';
-	return (1);
-*/}
+	return (len);
+}
+
+int	is_exept(char *mant, int exp)
+{
+	int i;
+	double mantissa;
+	double pow;
+	
+	pow = 1;
+	mantissa = 1;
+	i = 2;
+	while (mant[i])
+	{
+		pow /= 10;
+		mantissa += (double)(mant[i++] - 48) * pow;
+	}
+	if (exp == -1023 && mantissa == 1)
+		return (-1);
+	if (exp == 1024 && mantissa == 1.5)
+		return (-3);
+	if (exp == 1024 && mantissa == 1)
+		return (-2);
+	return (0);
+}

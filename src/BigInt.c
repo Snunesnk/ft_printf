@@ -6,13 +6,13 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 16:03:03 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/22 20:10:00 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/24 18:34:00 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_shiftstr(char buff[65], int mode)
+void	ft_shiftstr(char *buff, int mode)
 {
 	int i;
 	int ret_mv;
@@ -35,14 +35,14 @@ void	ft_shiftstr(char buff[65], int mode)
 	buff[i] = 0;
 }
 
-int ft_multiply(char buff[65])
+int ft_multiply(char *buff)
 {
 	int len;
 	int unit;
 	
 	len = 0;
 	while(buff[++len]);
-	while (len-- >= 0)
+	while (len-- > 0)
 	{
 		if (buff[len] == '.')
 			len--;
@@ -66,7 +66,7 @@ int ft_multiply(char buff[65])
 	return (0);
 }
 
-int ft_divide(char buff[65])
+int ft_divide(char *buff)
 {
 	int nb;
 	int len;
@@ -97,7 +97,7 @@ int ft_divide(char buff[65])
 	return (0);
 }
 
-int	ft_align(char buff[65], char two[65])
+int	ft_align(char *buff, char *two)
 {
 	int t_len;
 	int b_len;
@@ -125,7 +125,7 @@ int	ft_align(char buff[65], char two[65])
 	return (len - 1);
 }
 
-int ft_add(char buff[65], char two[65])
+int ft_add(char *buff, char *two)
 {
 	int ret;
 	int nb;
