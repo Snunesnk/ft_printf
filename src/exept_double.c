@@ -6,35 +6,37 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 15:53:28 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/24 21:15:10 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/25 20:07:03 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int handle_zero(t_flags *flag, int sign)
+int handle_zero(t_flags *fl, int sign)
 {
 	int len;
 	int ret;
 
-	flag->diez = (flag->preci > 0) ? 1 : flag->diez;
+	fl->diez = (fl->preci > 0) ? 1 : fl->diez;
 	len = 0;
-	if (!flag->minus)
+	fl->len = fl->preci + 1 + fl->diez + fl->plus + (fl->space && sign);
+	if (!fl->minus)
 	{
-		while (flag->width-- > flag->preci + 1 + flag->diez + flag->plus)
+		while (fl->width-- > fl->len)
 			len += write(1, " ", 1);
 	}
-	if (flag->plus)
+	len += (fl->space && sign) ? write(1, " ", 1) : 0;
+	if (fl->plus)
 		len += (sign == 0) ? write(1, "-", 1) : write(1, "+", 1);
 	len += write(1, "0", 1);
-	if (flag->diez)
+	if (fl->diez)
 		len += write(1, ".", 1);
-	ret = flag->preci;
+	ret = fl->preci;
 	while (ret--)
 		len += write(1, "0", 1);
-	if (flag->minus)
+	if (fl->minus)
 	{
-		while (flag->width-- > flag->preci + 1 + flag->diez + flag->plus)
+		while (fl->width-- > fl->len)
 			len += write(1, " ", 1);
 	}
 	return (len);

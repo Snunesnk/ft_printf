@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 11:22:00 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/22 18:58:27 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/25 12:01:09 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_reset_flags(t_flags *flag, int nb_flags)
 	int i;
 
 	i = 0;
+	flag->len = 0;
 	if (i++ < nb_flags)
 		flag->diez = 0;
 	if (i++ < nb_flags)

@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 12:35:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/22 19:22:18 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/25 12:07:06 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int fill_att(t_flags *flag, uintmax_t nb, char att[5])
 	flag->nb = (flag->preci > ft_nblen(nb, 8)) ? 0 : flag->nb;
 	ft_bzero(att, 5);
 	len = 0;
-	if (flag->space &&  flag->sign > 0)
+	if (flag->space && flag->sign > 0)
 		att[len++] = ' ';
 	if (flag->plus != 0 || flag->sign < 0)
 		att[len++] = (flag->sign == -1) ? '-' : '+';
