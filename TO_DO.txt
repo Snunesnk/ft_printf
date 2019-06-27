@@ -2,7 +2,8 @@
 
 !!!!To do : !!!!
 
- -	mettre a la norme => trouver comment declarer et initialiser des tableaux
+ -	Creer des fonctions pour initialiser le dispacher et les couleurs
+  => Pour le dispacher un egal ptr devrait suffire, et pour les couleurs des strcat
  -	demander un plantage de mon printf
 
 
