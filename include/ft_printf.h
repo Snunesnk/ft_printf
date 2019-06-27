@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 13:50:17 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/24 21:15:15 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/27 15:39:56 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,12 @@ typedef struct	s_flags
 	int	sign;
 	int	spos;
 	int nb;
+	int len;
+	int color;
 }				t_flags;
 
+int	handle_colors(t_flags *flag, const char*str);
+int	create_L_doub(char *bits, char *mant);
 int handle_exept(t_flags *flag, int exept, int sign);
 int print_double(t_flags *flag, char *mant, char *espaces, char *att);
 int	create_doub(char *bits, char *mant);
@@ -51,7 +55,7 @@ int	ft_divide(char *buff);
 void ft_shiftstr(char *buff, int mode);
 int	get_info(long double nbr, long double *mantisse, int *exp);
 int is_exept(char *mant, int exp);
-int	ft_round(char *mant, char *precision);
+int	ft_round(char *mant, int bound);
 int store_double(t_flags *flag, long double mantisse, int exp, char buff[311]);
 int	print_nb(t_flags *flag, intmax_t nb, int base);
 int store_fnb(long double nbr, t_flags *flag, int len);

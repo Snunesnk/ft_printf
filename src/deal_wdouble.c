@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 13:51:29 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/25 20:06:59 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/27 15:39:52 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int print_mant(t_flags *flag, char *mant)
 	write(1, mant, int_part);
 	while (mant[0] != '.')
 		ft_shiftstr(mant, 2);
+	len = ft_strlen(mant);
 	len = (flag->preci <= len) ? flag->preci : len;
-	//printf("len = %d, flag->preci = %d\n\n", len, flag->preci);
-	write(1, mant, len + flag->diez);
+	write(1, mant, len + 1);
 	flag->preci = flag->preci - len;
 	while (flag->preci-- > 0)
 		len += write(1, "0", 1);
@@ -98,16 +98,11 @@ void	char_to_bits(char c, char *mant, char *two, int nb)
 	while (gap > 0)
 	{
 		i = (c & gap);
-		if (i >= 1 && dprintf(2, "1"))
+		if (i >= 1)
 			ft_add(mant, two);
-		else
-			dprintf(2, "0");
 		gap /= 2;
-		if (gap == 8)
-			dprintf(2, " ");
 		ft_divide(two);
 	}
-	dprintf(2, " ");
 }
 
 int	create_doub(char *bits, char *mant)
@@ -117,17 +112,16 @@ int	create_doub(char *bits, char *mant)
 	char	two[56];
 
 	ft_bzero(two, 56);
-	two[0] = '1';
+	ft_strcat(two, "0.5\0");
 	exp = ((bits[7] & 0x7F) << 4) + ((bits[6] & 0xF0) >> 4) - 1023;
 	i = 6;
-	ft_divide(two);
 	while (i > -1)
 	{
 		char_to_bits(bits[i], mant, two, i);
 		i--;
 	}
-	if (is_exept(mant, exp) < 0)
-		return (is_exept(mant, exp));
+	if ((i = is_exept(mant, exp)) < 0)
+		return (i);
 	while (exp > 0)
 	{
 		ft_multiply(mant);

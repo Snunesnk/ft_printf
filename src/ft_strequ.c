@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.h                                             :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: snunes <snunes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/19 13:18:36 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/19 15:19:08 by snunes           ###   ########.fr       */
+/*   Created: 2019/04/10 14:34:33 by snunes            #+#    #+#             */
+/*   Updated: 2019/06/27 15:40:00 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_H
-# define TEST_H
+int	ft_strequ(char const *s1, char const *s2)
+{
+	int i;
 
-#include <fcntl.h>
-#include <stdio.h>
-#include "../include/ft_printf.h"
-
-int	c_basic_tests(void);
-int	c_width_tests(void);
-int	c_big_test(void);
-
-#endif
+	i = 0;
+	if (!s1 || !s2)
+		return (0);
+	while (s1[i])
+	{
+		if (s1[i] != s2[i])
+			return (0);
+		i++;
+	}
+	if (s1[i] != s2[i])
+		return (0);
+	return (1);
+}

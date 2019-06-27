@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 11:22:00 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/25 12:01:09 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/27 13:56:18 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,18 @@
 
 void	ft_reset_flags(t_flags *flag, int nb_flags)
 {
-	int i;
-
-	i = 0;
+	flag->nb = 0;
 	flag->len = 0;
-	if (i++ < nb_flags)
-		flag->diez = 0;
-	if (i++ < nb_flags)
-		flag->plus = 0;
-	if (i++ < nb_flags)
-		flag->space = 0;
-	if (i++ < nb_flags)
-		flag->minus = 0;
-	if (i++ < nb_flags)
-		flag->zero = 0;
-	if (i++ < nb_flags)
-		flag->width = 0;
-	if (i++ < nb_flags)
-		flag->preci = -1;
-	if (i++ < nb_flags)
-		flag->conv = 0;
-	if (i++ < nb_flags)
-		flag->sign = 0;
-	if (i++ < nb_flags)
+	flag->diez = 0;
+	flag->plus = 0;
+	flag->space = 0;
+	flag->minus = 0;
+	flag->zero = 0;
+	flag->width = 0;
+	flag->preci = -1;
+	flag->conv = 0;
+	flag->sign = 0;
+	flag->color = 0;
+	if (nb_flags > 0)
 		flag->spos = 0;
 }

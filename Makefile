@@ -6,7 +6,7 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/24 14:36:31 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/27 14:45:11 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,11 @@ SRC_NAME = 	ft_printf.c \
 			exept_double.c \
 			BigInt.c \
 			print_csp.c \
-			handle_flags.c
+			handle_flags.c \
+			deal_w_L_double.c \
+			handle_colors.c \
+			ft_isalpha.c \
+			ft_strequ.c
 OBJ_PATH = obj
 I_PATH = include
 HEADERS = ft_printf.h libft.h

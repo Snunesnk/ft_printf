@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 10:23:23 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/25 20:07:01 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/27 15:36:48 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,20 @@ int get_double(t_flags *flag, va_list ap)
 {
 	char	*bits;
 	double	nbr;
-	char	mant[56];
+	char	mant[6000];
 	char	*espaces;
 	char 	att[5];
 	int 	len;
 
 	len = 0;
 	flag->preci = (flag->preci == -1) ? 6 : flag->preci;
-	ft_bzero(mant, 56);
+	ft_bzero(mant, 6000);
 	mant[0] = '1';
 	nbr = va_arg(ap, double);
 	flag->sign = (nbr >= 0) ? 1 : -1;
 	bits = ((char *)&nbr);
-	dprintf(2, "nb = %lf\n", nbr);
-	if ((len = create_doub(bits, mant)) < 0 || nbr == 0)
+	if ((len = create_doub(bits, mant)) < 0)
 		return (handle_exept(flag, len, nbr >= 0));
-//	dprintf(2, "flag->preci = %d\n", flag->preci);
 	while (mant[len] && mant[len] != '.')
 		len++;
 	len += fill_att(flag, nbr, att);
@@ -70,7 +68,6 @@ int get_double(t_flags *flag, va_list ap)
 		return (-1);
 	len = print_double(flag, mant, espaces, att);
 	free(espaces);
-	dprintf(2, "Checkpoint fin de fonction\n");
 	return (len);
 }
 

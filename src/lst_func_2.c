@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 12:21:59 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/22 19:17:07 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/27 15:36:19 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,32 @@ int get_ll_int(t_flags *flag, va_list ap)
 
 int get_L_double(t_flags *flag, va_list ap)
 {
-	(void)flag;
-	(void)ap;
-	return (0);/*
-	int len;
-	double nb;
-	intmax_t ret;
-	int pow;
+	char		*bits;
+	long double	nbr;
+	char		mant[6000];
+	char		*espaces;
+	char 		att[5];
+	int 		len;
 
+	len = 0;
 	flag->preci = (flag->preci == -1) ? 6 : flag->preci;
-	pow = 0;
-	nb = va_arg(ap, long double);
-	ret = nb;
-	len = ft_nblen(nb) + 1;
-	len = (flag->diez || flag->preci) ? len + 1 : len;
-	len += store_float_fspaces(flag, nb >= 0, len - 1, buff);
-	nb = (nb < 0) ? -nb : nb;
-	len += store_fnb(nb, flag, buff, ft_nblen(nb));
-	ret = nb;
-	nb = nb - ret;
-	ret = flag->preci;
-	while (ret-- )
-		nb *= 10;
-	nb = ((ret = nb * 10) % 10 >= 5) ? nb + 1 : nb;
-	(flag->diez == 1 || flag->preci > 0) ? (buff[flag->bpos++] = '.') : 0;
-	len += store_fnb(nb, flag, buff, flag->preci);
-	store_espaces(flag, len, buff);
+	ft_bzero(mant, 6000);
+	mant[0] = '1';
+	nbr = va_arg(ap, long double);
+	flag->sign = (nbr >= 0) ? 1 : -1;
+	bits = ((char *)&nbr);
+	if ((len = create_L_doub(bits, mant)) < 0)
+		return (handle_exept(flag, len, nbr >= 0));
+	while (mant[len] && mant[len] != '.')
+		len++;
+	len += fill_att(flag, nbr, att);
+	len = flag->width - (flag->preci + len + 1);
+	if (!(espaces = make_espaces(flag, len)))
+		return (-1);
+	len = print_double(flag, mant, espaces, att);
+	free(espaces);
 	return (len);
-*/}
+}
 
 int get_ull_int(t_flags *flag, va_list ap)
 {

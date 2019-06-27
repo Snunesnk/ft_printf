@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/25 18:52:01 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/27 14:29:26 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,19 @@ int print_percent(t_flags *flag)
 
 int	get_next_percent(const char *str, t_flags *flag)
 {
-	int		i;
 	int		len;
-	char	*stuff;
 
-	i = 0;
 	len = 0;
-	while (str[flag->spos + len] && str[flag->spos + len] != '%')
-		(len)++;
-	if (!(stuff = (char *)ft_memalloc(sizeof(char) * (len + 1))))
-		return (-1);
-	ft_reset_flags(flag, 9);
+	if (flag->color == 1)
+		write(1, "\033[0m", 5);
+	ft_reset_flags(flag, 0);
 	while (str[flag->spos] && str[flag->spos] != '%')
-		stuff[i++] = str[flag->spos++];
-	write(1, stuff, len);
-	free(stuff);
+	{
+		if (str[flag->spos] == '{')
+			flag->spos = handle_colors(flag, str);
+		len += (str[flag->spos] != '%') ? write(1, &str[flag->spos], 1) : 0;
+		flag->spos += (str[flag->spos] == '%') ? 0 : 1;
+	}
 	if (!str[flag->spos] && len == 0)
 		return (-1);
 	return (len);
@@ -71,16 +69,14 @@ int	ft_printf(const char *format, ...)
 	};
 
 	i = 0;
-	ft_reset_flags(&flag, 10);
+	ft_reset_flags(&flag, 1);
 	len = 0;
 	va_start(ap, format);
 	while ((w_len = get_next_percent(format, &flag)) >= 0)
 	{
 		len += w_len;
 		if ((i = find_first_flags(format, &flag) - 1) >= 0 && i < 17)
-		{
 			len += (*func[i])(&flag, ap);
-		}
 		else if (i == 17)
 			len += print_percent(&flag);
 	}

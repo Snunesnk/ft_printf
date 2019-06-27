@@ -1,9 +1,12 @@
 
 
 !!!!To do : !!!!
-	
- -	gere le flag space sur les doubles et peut etre tester sur le reste
- -	realiser la gestions des long doubles
+
+Sur les doubles / longs doubles :
+ -	implementer l'arrondi de la partie decimale et regarder cette histoire de 0 
+ 	en trop
+
+Pour le reste :
  -	faire prendre l'adresse de ap a mes fonctions
  -	mettre a la norme
  -	realiser tout pleins de test
@@ -12,6 +15,4 @@
 
 Ce serais bien :
 
- -	reproduire le meme comportement que printf sur les unsigned negatifs	
  -	de repartir les fichiers src dans differents sous dossiers pour la clarte
- -	d'avoir des fonctions qui renvoient le nombre de char ecrits/stockes
