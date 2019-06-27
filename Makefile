@@ -6,14 +6,15 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/27 14:45:11 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/27 21:20:52 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 NAME = libftprintf.a
-SRC_PATH = src
-SRC_NAME = 	ft_printf.c \
+VPATH = src/ft_printf:src/libft:src/output:src/conversions:src/double:include:
+
+SRC = 		ft_printf.c \
 			lst_func_1.c \
 			lst_func_2.c \
 			lst_func_3.c \
@@ -33,21 +34,19 @@ SRC_NAME = 	ft_printf.c \
 			ft_nblen.c \
 			deal_wdouble.c \
 			exept_double.c \
-			BigInt.c \
+			big_int.c \
 			print_csp.c \
 			handle_flags.c \
-			deal_w_L_double.c \
+			deal_w_l_double.c \
 			handle_colors.c \
 			ft_isalpha.c \
 			ft_strequ.c
 OBJ_PATH = obj
 I_PATH = include
-HEADERS = ft_printf.h libft.h
-OBJ_NAME = $(SRC_NAME:.c=.o)
-CCFLAGS = -Wall -Wextra -Werror -g
-SRC = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+HEADER = ft_printf.h libft.h
+OBJ_NAME = $(SRC:.c=.o)
+CCFLAGS = -Wall -Wextra -Werror
 OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
-HEADER = $(addprefix $(I_PATH)/,$(HEADERS))
 
 CLINE = \033[K
 CLEAR = \033[0m
@@ -58,7 +57,7 @@ BRED = \033[31m
 TEST_SRCS = unit-tests/main.c \
 			unit-tests/char_test.c
 
-.PHONY : all, clean, fclean, re, help, norme
+.PHONY : all, clean, fclean, re, help, norme, exec
 
 ## all		: compile et cree l'executable
 all : $(NAME)
@@ -74,7 +73,7 @@ exec : src/main.c $(NAME)
 	@gcc -g src/main.c -o exec -I include -L. -lftprintf
 
 ## objet		: verifie que les objets et le header soient a jour
-$(OBJ_PATH)/%.o : $(SRC_PATH)/%.c $(HEADER)
+$(OBJ_PATH)/%.o : %.c $(HEADER)
 	@mkdir $(OBJ_PATH) 2> /dev/null || true 
 	@$(CC) $(CCFLAGS) -I $(I_PATH) -o $@ -c $< 
 	@echo "$(GREEN)[OK]\t$(BYELLOW)Compiling$(CLEAR) $<"
@@ -102,7 +101,3 @@ norme :
 ## help		: affiche les options disponibles et leurs utilitees
 help : Makefile
 	@sed -n 's/^##//p' $<
-
-test : all 
-	@$(CC) $(TEST_SRCS) -L. -lftprintf -I unit-tests/
-	@echo "$(BRED)Executable created$(CLEAR)"

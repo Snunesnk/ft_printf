@@ -2,17 +2,10 @@
 
 !!!!To do : !!!!
 
-Sur les doubles / longs doubles :
- -	implementer l'arrondi de la partie decimale et regarder cette histoire de 0 
- 	en trop
-
-Pour le reste :
- -	faire prendre l'adresse de ap a mes fonctions
- -	mettre a la norme
- -	realiser tout pleins de test
+ -	mettre a la norme => trouver comment declarer et initialiser des tableaux
  -	demander un plantage de mon printf
 
 
 Ce serais bien :
 
- -	de repartir les fichiers src dans differents sous dossiers pour la clarte
+ -	moifier le moulitest pour rajouter mes tests
