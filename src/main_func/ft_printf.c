@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 21:36:20 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 12:04:26 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,20 @@ int	get_next_percent(const char *str, t_flags *flag)
 
 int	ft_printf(const char *format, ...)
 {
-	va_list		ap;
-	t_flags		flag;
-	int			len;
-	static int	(*func[])(t_flags *flag, va_list *ap) =
-	{
-		&print_char, &print_str, &print_ptr, &get_hh_int, &get_uhh_int,
-		&get_h_int, &get_uh_int, &get_l_int, &get_ul_int, &get_ll_int,
-		&get_ull_int, &get_l_double, &get_double, &get_int, &get_u_int,
-		&get_j_int, &get_uj_int
-	};
+	va_list	ap;
+	t_flags	flag;
+	int		len;
+	int		(*func[17])(t_flags *flag, va_list *ap);
 
+	flag.fd = 1;
+	init_dispatcher(func);
 	ft_reset_flags(&flag, 1);
 	len = 0;
 	va_start(ap, format);
 	while ((flag.len = get_next_percent(format, &flag)) >= 0)
 	{
 		len += flag.len;
-		if ((flag.len = find_flags(format, &flag) - 1) >= 0 && flag.len < 17)
+		if ((flag.len = get_flag(format, &flag, &ap) - 1) >= 0 && flag.len < 17)
 			len += (*func[flag.len])(&flag, &ap);
 		else if (flag.len == 17)
 			len += print_percent(&flag);

@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 13:50:17 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 20:37:34 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 12:34:34 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,20 @@ typedef struct	s_flags
 	int nb;
 	int len;
 	int color;
+	int fd;
 }				t_flags;
 
+int				ft_dprintf(int fd, const char *format, ...);
+int				print_double(t_flags *flag, char *mant, char *espaces,
+																	char *att);
+int				print_mant(t_flags *flag, char *mant);
+int				print_percent(t_flags *flag);
+int				get_next_percent(const char *str, t_flags *flag);
+void			init_hcolor(char **colours);
+void			init_ucolor(char **colours);
+void			init_bcolor(char **colours);
+void			init_color(char **colours);
+void			init_dispatcher(int (*func[17])(t_flags *flag, va_list *ap));
 int				print_all(t_flags *flag, char *esp, char *num, char *att);
 int				handle_colors(t_flags *flag, const char*str);
 int				create_l_doub(char *bits, char *mant);
@@ -58,8 +70,8 @@ int				get_j_int(t_flags *flag, va_list *ap);
 int				get_uj_int(t_flags *flag, va_list *ap);
 void			ft_reset_flags(t_flags *flag, int nb_flags);
 int				print_unb(t_flags *flag, uintmax_t nb, int base);
-int				order_flags(t_flags *flag);
-int				find_flags(const char *str, t_flags *flag);
+void			order_flags(t_flags *flag);
+int				get_flag(const char *str, t_flags *flag, va_list *ap);
 int				get_uh_int(t_flags *flag, va_list *ap);
 int				get_u_int(t_flags *flag, va_list *ap);
 int				get_ul_int(t_flags *flag, va_list *ap);

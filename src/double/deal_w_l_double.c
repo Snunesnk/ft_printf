@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 11:38:11 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 19:42:53 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 11:20:55 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	char_to_bits2(char c, char *mant, char *two, int nb)
 	int i;
 	int gap;
 
-	(void)mant;
 	gap = (nb == 7) ? 64 : 128;
 	while (gap > 0)
 	{
@@ -65,7 +64,7 @@ int		create_l_doub(char *bits, char *mant)
 	char	two[67];
 
 	i = 7;
-	ft_bzero(two, 67);
+	ft_bzero(two, sizeof(two));
 	ft_strcat(two, "0.5\0");
 	exp = ((bits[9] & 127) << 8) + (bits[8] & 255) - 16383;
 	while (i > -1)

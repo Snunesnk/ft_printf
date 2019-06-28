@@ -6,31 +6,29 @@
 #    By: snunes <snunes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/05 12:37:58 by snunes            #+#    #+#              #
-#    Updated: 2019/06/27 21:20:52 by snunes           ###   ########.fr        #
+#    Updated: 2019/06/28 12:33:37 by snunes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
 NAME = libftprintf.a
-VPATH = src/ft_printf:src/libft:src/output:src/conversions:src/double:include:
+VPATH = src/main_func:src/libft:src/print:src/conversions:src/double:include:
 
 SRC = 		ft_printf.c \
 			lst_func_1.c \
 			lst_func_2.c \
 			lst_func_3.c \
-			get_arg.c \
+			get_flags.c \
 			print_multi.c \
 			ft_atoi.c \
 			ft_isdigit.c \
-			ft_putstr.c \
 			ft_strlen.c \
 		   	ft_isspace.c \
 			ft_memalloc.c \
-			ft_putchar.c \
 		   	ft_bzero.c \
 			ft_strcat.c \
 			ft_strcpy.c \
-			reset_flags.c \
+			arrange_flags.c \
 			ft_nblen.c \
 			deal_wdouble.c \
 			exept_double.c \
@@ -40,7 +38,9 @@ SRC = 		ft_printf.c \
 			deal_w_l_double.c \
 			handle_colors.c \
 			ft_isalpha.c \
-			ft_strequ.c
+			ft_strequ.c \
+			init_arrays.c \
+			ft_dprintf.c
 OBJ_PATH = obj
 I_PATH = include
 HEADER = ft_printf.h libft.h
@@ -68,9 +68,9 @@ $(NAME) : $(OBJ)
 	@ranlib $@
 	@echo "$(GREEN)[DONE]$(CLEAR)"
 
-exec : src/main.c $(NAME)
+exec : main.c $(NAME)
 	@echo "$(BYELLOW)Creating executable file$(CLEAR)"
-	@gcc -g src/main.c -o exec -I include -L. -lftprintf
+	@gcc -g main.c -o exec -I include -L. -lftprintf
 
 ## objet		: verifie que les objets et le header soient a jour
 $(OBJ_PATH)/%.o : %.c $(HEADER)

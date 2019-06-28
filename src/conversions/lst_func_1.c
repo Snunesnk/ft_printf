@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 10:23:23 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 20:15:02 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 12:47:04 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	get_double(t_flags *flag, va_list *ap)
 
 	flag->len = 0;
 	flag->preci = (flag->preci == -1) ? 6 : flag->preci;
-	ft_bzero(mant, 6000);
+	ft_bzero(mant, sizeof(mant));
 	mant[0] = '1';
 	nbr = va_arg(*ap, double);
 	flag->sign = (nbr >= 0) ? 1 : -1;

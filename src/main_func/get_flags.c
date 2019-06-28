@@ -6,16 +6,22 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/10 16:30:10 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 20:18:05 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 12:03:21 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	get_nbr(const char *str, int *pos)
+int	get_nbr(const char *str, int *pos, va_list *ap)
 {
 	int result;
 
+	if (str[*pos] == '*')
+	{
+		result = va_arg(*ap, int);
+		(*pos)++;
+		return (result);
+	}
 	result = 0;
 	while (ft_isdigit(str[*pos]))
 	{
@@ -56,6 +62,7 @@ int	find_hhll(const char *str, t_flags *flag)
 	int nb;
 	int pos;
 
+	order_flags(flag);
 	pos = flag->spos;
 	if (str[pos] == 'h' && str[pos + 1] == 'h' && (pos += 2) && (nb = 5))
 		flag->conv = str[pos];
@@ -73,13 +80,12 @@ int	find_hhll(const char *str, t_flags *flag)
 	else
 		nb = find_conv(str, pos);
 	flag->conv = str[pos];
-	order_flags(flag);
 	flag->spos = pos + 1;
 	nb = (str[pos] == 'd' || str[pos] == 'i' || str[pos] == 'D') ? nb - 1 : nb;
 	return (nb);
 }
 
-int	find_flags(const char *str, t_flags *flag)
+int	get_flag(const char *str, t_flags *flag, va_list *ap)
 {
 	int pos;
 
@@ -100,10 +106,10 @@ int	find_flags(const char *str, t_flags *flag)
 		if (str[pos] == '0' && ++pos)
 			flag->zero = 1;
 	}
-	if (ft_isdigit(str[pos]))
-		flag->width = get_nbr(str, &pos);
+	while (ft_isdigit(str[pos]) || str[pos] == '*')
+		flag->width = get_nbr(str, &pos, ap);
 	if (str[pos] == '.' && ++pos)
-		flag->preci = get_nbr(str, &pos);
+		flag->preci = get_nbr(str, &pos, ap);
 	flag->spos = pos;
 	return (find_hhll(str, flag));
 }

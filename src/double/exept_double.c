@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 15:53:28 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 20:08:50 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 12:25:14 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,30 @@ int	handle_zero(t_flags *fl, int sign)
 	len = 0;
 	fl->len = fl->preci + 1 + fl->diez + fl->plus + (fl->space && sign);
 	while (!fl->minus && fl->width-- > fl->len)
-		len += write(1, " ", 1);
-	len += (fl->space && sign) ? write(1, " ", 1) : 0;
+		len += write(fl->fd, " ", 1);
+	len += (fl->space && sign) ? write(fl->fd, " ", 1) : 0;
 	if (fl->plus)
-		len += (sign == 0) ? write(1, "-", 1) : write(1, "+", 1);
-	len += write(1, "0", 1);
+		len += (sign == 0) ? write(fl->fd, "-", 1) : write(fl->fd, "+", 1);
+	len += write(fl->fd, "0", 1);
 	if (fl->diez)
-		len += write(1, ".", 1);
+		len += write(fl->fd, ".", 1);
 	ret = fl->preci;
 	while (ret--)
-		len += write(1, "0", 1);
+		len += write(fl->fd, "0", 1);
 	if (fl->minus)
 	{
 		while (fl->width-- > fl->len)
-			len += write(1, " ", 1);
+			len += write(fl->fd, " ", 1);
 	}
 	return (len);
 }
 
 int	handle_exept(t_flags *flag, int nb_exept, int sign)
 {
+	int	fd;
 	int len;
 
+	fd = flag->fd;
 	flag->plus = (sign == 0 && nb_exept != -3) ? 1 : flag->plus;
 	len = 0;
 	if (nb_exept == -1)
@@ -50,18 +52,18 @@ int	handle_exept(t_flags *flag, int nb_exept, int sign)
 	if (!flag->minus)
 	{
 		while (flag->width-- > 3 + flag->plus)
-			len += write(1, " ", 1);
+			len += write(fd, " ", 1);
 	}
 	if (flag->plus && nb_exept != -3)
-		len += (sign == 0) ? write(1, "-", 1) : write(1, "+", 1);
+		len += (sign == 0) ? write(fd, "-", 1) : write(fd, "+", 1);
 	if (flag->conv == 'f')
-		len += (nb_exept == -2) ? write(1, "inf", 3) : write(1, "nan", 3);
+		len += (nb_exept == -2) ? write(fd, "inf", 3) : write(fd, "nan", 3);
 	else if (flag->conv == 'F')
-		len += (nb_exept == -2) ? write(1, "INF", 3) : write(1, "NAN", 3);
+		len += (nb_exept == -2) ? write(fd, "INF", 3) : write(fd, "NAN", 3);
 	if (flag->minus)
 	{
 		while (flag->width-- > 3 + flag->plus)
-			len += write(1, " ", 1);
+			len += write(fd, " ", 1);
 	}
 	return (len);
 }

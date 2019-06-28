@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 18:37:12 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 20:09:26 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 12:11:00 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	print_char(t_flags *flag, va_list *ap)
 	if (!(espaces = make_espaces(flag, espaces_len)))
 		return (-1);
 	if (!flag->minus)
-		write(1, espaces, espaces_len);
-	(c == '\0') ? write(1, "\0", 1) : write(1, &c, 1);
+		write(flag->fd, espaces, espaces_len);
+	(c == '\0') ? write(flag->fd, "\0", 1) : write(flag->fd, &c, 1);
 	if (flag->minus)
-		write(1, espaces, espaces_len);
+		write(flag->fd, espaces, espaces_len);
 	free(espaces);
 	return (len);
 }
@@ -53,10 +53,10 @@ int	print_str(t_flags *flag, va_list *ap)
 	if (!(espaces = make_espaces(flag, i)))
 		return (-1);
 	if (!flag->minus)
-		write(1, espaces, i);
-	(!str) ? write(1, "(null)", len) : write(1, str, len);
+		write(flag->fd, espaces, i);
+	(!str) ? write(flag->fd, "(null)", len) : write(flag->fd, str, len);
 	if (flag->minus)
-		write(1, espaces, i);
+		write(flag->fd, espaces, i);
 	free(espaces);
 	return (len + i);
 }

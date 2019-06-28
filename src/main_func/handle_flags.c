@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 12:35:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 20:00:09 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 11:41:51 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,4 @@ int		fill_att(t_flags *flag, uintmax_t nb, char att[5])
 	if (flag->diez && flag->conv == 'X' && nb)
 		att[len++] = 'X';
 	return (len);
-}
-
-int		order_flags(t_flags *flag)
-{
-	if (flag->plus == 1)
-		flag->space = 0;
-	if (flag->minus == 1)
-		flag->zero = 0;
-	if (flag->preci > -1 && flag->conv != 'L' && flag->conv != 'f')
-		flag->zero = 0;
-	return (1);
 }

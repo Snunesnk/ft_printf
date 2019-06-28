@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 15:01:50 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/27 20:11:32 by snunes           ###   ########.fr       */
+/*   Updated: 2019/06/28 12:34:11 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	print_all(t_flags *flag, char *esp, char *num, char att[5])
 
 	len = 0;
 	if (flag->zero)
-		len += write(1, att, ft_strlen(att));
+		len += write(flag->fd, att, ft_strlen(att));
 	if (!flag->minus)
-		len += write(1, esp, ft_strlen(esp));
+		len += write(flag->fd, esp, ft_strlen(esp));
 	if (!flag->zero)
-		len += write(1, att, ft_strlen(att));
-	len += write(1, num, ft_strlen(num));
+		len += write(flag->fd, att, ft_strlen(att));
+	len += write(flag->fd, num, ft_strlen(num));
 	if (flag->minus)
-		len += write(1, esp, ft_strlen(esp));
+		len += write(flag->fd, esp, ft_strlen(esp));
 	return (len);
 }
 
@@ -82,4 +82,58 @@ int	print_unb(t_flags *flag, uintmax_t nb, int base)
 	free(num);
 	free(esp);
 	return (len);
+}
+
+int	print_mant(t_flags *flag, char *mant)
+{
+	int	len;
+	int	int_part;
+
+	flag->diez = (flag->preci > 0) ? 1 : flag->diez;
+	int_part = 0;
+	len = ft_strlen(mant);
+	while (mant[int_part] && mant[int_part] != '.')
+		int_part++;
+	int_part += ft_round(mant, flag->preci + int_part + 1);
+	write(flag->fd, mant, int_part);
+	while (mant[0] != '.' && mant[0])
+		ft_shiftstr(mant, 2);
+	ft_shiftstr(mant, 2);
+	write(flag->fd, ".", 1);
+	len = ft_strlen(mant);
+	len = (flag->preci <= len) ? flag->preci : len;
+	write(flag->fd, mant, len);
+	flag->preci = flag->preci - len;
+	while (flag->preci-- > 0)
+		len += write(flag->fd, "0", 1);
+	return (len + int_part + flag->diez);
+}
+
+int	print_double(t_flags *flag, char *mant, char *espaces, char *att)
+{
+	int len;
+	int esp_len;
+	int att_len;
+
+	esp_len = 0;
+	while (espaces[esp_len])
+		esp_len++;
+	att_len = 0;
+	while (att[att_len])
+		att_len++;
+	len = 0;
+	while (mant[len] && mant[len] != '.')
+		len++;
+	len++;
+	if (flag->zero)
+		write(flag->fd, att, att_len);
+	if (!flag->minus)
+		write(flag->fd, espaces, esp_len);
+	if (!flag->zero)
+		write(flag->fd, att, att_len);
+	if ((len = print_mant(flag, mant)) == -1)
+		return (-1);
+	if (flag->minus)
+		write(flag->fd, espaces, esp_len);
+	return (len + esp_len + att_len);
 }
