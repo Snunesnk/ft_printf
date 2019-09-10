@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:36:15 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/28 12:54:19 by snunes           ###   ########.fr       */
+/*   Updated: 2019/09/10 18:27:24 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 
 int	main(void)
 {
-	double data;
 
-	data = 1.42;
-	printf("vrai printf :\n");
-	printf(", ret = %d\n", printf("{%*3.*f}", 5, 8, data));
-	printf("\nfaux printf :\n");
-	printf(", ret = %d\n", ft_dprintf(1, "{{H_cyan}%*3.*f}", 5, 8, data));
+	long double data =  42.42;
+
+	(void)data;
+	int ret = printf("vrai |%Lf|\n", data); printf("ret = %d\n", ret);
+	int ret2 = ft_printf("faux |%Lf|\n", data); printf("ret 2 = %d\n", ret2);
+	printf("---------------------------------------\n");
+	ret = printf("vrai |%Lf|\n", (long double)data); printf("ret = %d\n", ret);
+	ret2 = ft_printf("faux |%Lf|\n", (long double)data); printf("ret 2 = %d\n", ret2);
 }

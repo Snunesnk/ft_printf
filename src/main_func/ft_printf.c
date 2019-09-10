@@ -6,7 +6,7 @@
 /*   By: snunes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 04:53:01 by snunes            #+#    #+#             */
-/*   Updated: 2019/06/28 12:04:26 by snunes           ###   ########.fr       */
+/*   Updated: 2019/09/10 18:27:33 by snunes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,36 @@ int	print_percent(t_flags *flag)
 	return (len);
 }
 
-int	get_next_percent(const char *str, t_flags *flag)
+int	get_next_percent(const char *str, t_flags *flg)
 {
 	int		len;
+	int		ret;
 
+	ret = 0;
 	len = 0;
-	if (flag->color == 1)
-		write(1, "\033[0m", 5);
-	ft_reset_flags(flag, 0);
-	while (str[flag->spos] && str[flag->spos] != '%')
+	if (flg->color == 1)
+		write(flg->fd, "\033[0m", sizeof("\033[0m") - 1);
+	ft_reset_flags(flg, 0);
+	while (str[flg->spos] && str[flg->spos] != '%')
 	{
-		if (str[flag->spos] == '{')
-			flag->spos = handle_colors(flag, str);
-		len += (str[flag->spos] != '%') ? write(1, &str[flag->spos], 1) : 0;
-		flag->spos += (str[flag->spos] == '%') ? 0 : 1;
+		while (str[flg->spos] == '{')
+		{
+			flg->spos = handle_colors(flg, str);
+			if (ret == flg->spos)
+				flg->spos += write(1, &str[flg->spos], 1);
+			ret = flg->spos;
+		}
+		len += (str[flg->spos] != '%') ? write(flg->fd, &str[flg->spos], 1) : 0;
+		flg->spos += (str[flg->spos] == '%') ? 0 : 1;
 	}
-	if (!str[flag->spos + 1])
-		flag->spos += 1;
-	if (!str[flag->spos] && len == 0)
+	if (!str[flg->spos + 1])
+		flg->spos += 1;
+	if (!str[flg->spos] && len == 0)
 		return (-1);
 	return (len);
 }
+
+#include <stdio.h>
 
 int	ft_printf(const char *format, ...)
 {
@@ -75,6 +84,8 @@ int	ft_printf(const char *format, ...)
 		else if (flag.len == 17)
 			len += print_percent(&flag);
 	}
+	if (flag.color == 1)
+		write(1, "\033[0m", sizeof("\033[0m") - 1);
 	va_end(ap);
 	return (len);
 }
